@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - gh-pages
-  # Permet de lancer le déploiement manuellement depuis l'interface GitHub au besoin
+  # Permet de lancer le déploiement manuellement depuis l'interface GitHub
   workflow_dispatch:
 
 permissions:
@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # On prépare et on upload le dossier pré-compilé
+  # Étape 1 : Build (Construction) et Upload des fichiers
   prepare-and-upload:
     runs-on: ubuntu-latest
 
@@ -25,16 +25,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          # Optionnel : active le cache pour accélérer les builds futurs
+          # cache: 'npm'
+          # cache-dependency-path: bourso_view_front/package-lock.json
+
+      - name: Install dependencies and Build
+        run: |
+          cd bourso_view_front
+          npm install
+          npm run build
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          # On prend directement le dossier dist qui a été poussé sur le repo
-          path: .
+          # On cible le dossier de sortie généré par le build
+          path: ./bourso_view_front/dist
 
-  # On déploie sur GitHub Pages
+  # Étape 2 : Déploiement effectif sur GitHub Pages
   deploy:
     environment:
       name: github-pages
