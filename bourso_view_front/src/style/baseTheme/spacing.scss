@@ -1,0 +1,28 @@
+/*
+ * spacing.scss — Espacements Base Theme
+ * Padding standardisé pour les composants non-layout
+ */
+
+@layer utilities {
+  [data-theme="base"] {
+    /* Padding des boutons standards */
+    .btn-padding {
+      padding: 0.5rem 1rem;
+    }
+    
+    /* Padding des boutons larges / header auth */
+    .btn-large-padding {
+      padding: 0.75rem 1.5rem;
+    }
+    
+    /* Padding interne des cards classiques */
+    .card-padding {
+      padding: 1.5rem;
+    }
+
+    /* Padding interne des cards étendues */
+    .card-large-padding {
+      padding: 2rem;
+    }
+  }
+}

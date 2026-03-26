@@ -1,0 +1,1 @@
+export { createReferentielSuite } from "./referentielTests";

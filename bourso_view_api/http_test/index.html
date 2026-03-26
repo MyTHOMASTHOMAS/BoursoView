@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoursoViewApi — HTTP Test Runner</title>
+    <style>
+        :root {
+            --bg: #0f1117;
+            --bg-card: #1a1d27;
+            --bg-hover: #22263a;
+            --accent: #6c5ce7;
+            --accent-soft: rgba(108, 92, 231, .15);
+            --green: #00cec9;
+            --green-soft: rgba(0, 206, 201, .12);
+            --red: #ff7675;
+            --red-soft: rgba(255, 118, 117, .12);
+            --text: #e2e8f0;
+            --text-muted: #8892a4;
+            --border: #2d3148;
+            --radius: 10px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        #app {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: .4rem 0 1.2rem;
+        }
+
+        /* Buttons */
+        .btn {
+            border: none;
+            cursor: pointer;
+            font-family: var(--font);
+            font-weight: 600;
+            font-size: .85rem;
+            border-radius: 8px;
+            padding: .6rem 1.4rem;
+            transition: all .15s ease;
+        }
+
+        .btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .btn-run-all {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-run-all:hover:not(:disabled) {
+            background: #5b4bd5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(108, 92, 231, .35);
+        }
+
+        .btn-run-suite {
+            background: var(--accent-soft);
+            color: var(--accent);
+            border: 1px solid rgba(108, 92, 231, .25);
+        }
+
+        .btn-run-suite:hover:not(:disabled) {
+            background: rgba(108, 92, 231, .25);
+        }
+
+        /* Suites */
+        .suite {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 1.2rem;
+            overflow: hidden;
+        }
+
+        .suite-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .suite-info h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .suite-desc {
+            color: var(--text-muted);
+            font-size: .8rem;
+            margin-top: .15rem;
+        }
+
+        .suite-counter {
+            padding: .6rem 1.25rem;
+            font-size: .85rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .suite-counter.all-pass {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .suite-counter.some-fail {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        /* Test Results */
+        .test-result {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .test-result:last-child {
+            border-bottom: none;
+        }
+
+        .test-header {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .75rem 1.25rem;
+            cursor: pointer;
+            transition: background .12s;
+        }
+
+        .test-header:hover {
+            background: var(--bg-hover);
+        }
+
+        .test-icon { font-size: 1rem; }
+
+        .test-name {
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .test-method {
+            font-family: var(--mono);
+            font-size: .7rem;
+            padding: .15rem .5rem;
+            border-radius: 4px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .test-duration {
+            font-family: var(--mono);
+            font-size: .75rem;
+            color: var(--text-muted);
+        }
+
+        .status-pass {
+            font-size: .7rem;
+            font-weight: 700;
+            padding: .15rem .5rem;
+            border-radius: 4px;
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .status-fail {
+            font-size: .7rem;
+            font-weight: 700;
+            padding: .15rem .5rem;
+            border-radius: 4px;
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .test-details {
+            padding: 0 1.25rem .85rem;
+        }
+
+        .test-desc {
+            font-size: .8rem;
+            color: var(--text-muted);
+            margin-bottom: .5rem;
+        }
+
+        .test-error {
+            background: var(--red-soft);
+            color: var(--red);
+            padding: .5rem .75rem;
+            border-radius: 6px;
+            font-size: .8rem;
+            margin-bottom: .5rem;
+        }
+
+        /* Assertions */
+        .assertions {
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+            margin-bottom: .5rem;
+        }
+
+        .assertion {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .78rem;
+            padding: .3rem .6rem;
+            border-radius: 5px;
+        }
+
+        .a-pass { background: var(--green-soft); }
+        .a-fail { background: var(--red-soft); }
+
+        .a-icon { font-weight: 700; }
+        .a-pass .a-icon { color: var(--green); }
+        .a-fail .a-icon { color: var(--red); }
+
+        .a-expected, .a-actual {
+            color: var(--text-muted);
+            font-size: .75rem;
+        }
+
+        .assertion code {
+            font-family: var(--mono);
+            font-size: .75rem;
+            background: rgba(255,255,255,.06);
+            padding: .1rem .35rem;
+            border-radius: 3px;
+        }
+
+        /* Response details */
+        .response-details {
+            margin-top: .4rem;
+        }
+
+        .response-details summary {
+            font-size: .78rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: .3rem 0;
+        }
+
+        .response-details pre {
+            background: #12141c;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: .75rem 1rem;
+            overflow-x: auto;
+            margin-top: .3rem;
+        }
+
+        .response-details code {
+            font-family: var(--mono);
+            font-size: .75rem;
+            color: var(--text);
+        }
+
+        @media (max-width: 600px) {
+            #app { padding: 1rem; }
+            .suite-header { flex-direction: column; gap: .75rem; align-items: flex-start; }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app"></div>
+    <script type="module" src="./src/index.ts"></script>
+</body>
+</html>

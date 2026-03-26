@@ -1,0 +1,17 @@
+/*
+ * borders.scss — Bordures Base Theme
+ */
+
+@layer utilities {
+  [data-theme="base"] {
+    /* ── Couleurs de bordure ─────────────────────────────────────── */
+    .border-subtle  { border-width: 1px; border-color: rgba(255, 255, 255, 0.05); }
+    .border-primary { border-width: 1px; border-color: rgba(99, 102, 241, 0.2); }
+    .border-error   { border-width: 1px; border-color: rgba(239, 68, 68, 0.2); }
+    
+    /* ── Border-radius ───────────────────────────────────────────── */
+    .radius-btn  { border-radius: 0.5rem; }
+    .radius-card { border-radius: 1rem; }
+    .radius-full { border-radius: 9999px; }
+  }
+}

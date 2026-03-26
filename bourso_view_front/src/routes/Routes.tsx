@@ -1,0 +1,67 @@
+/**
+ * @file Routes.tsx
+ * @description Configuration centralisée du routage de l'application.
+ *
+ * Utilise {@link RouteBuilder} pour créer un routeur typé et
+ * {@link LinkBuilder} pour générer des composants de navigation typés.
+ *
+ * @remarks
+ * - `R` : instance de `RouteBuilder` — utilisée dans App.tsx pour créer le `RouterProvider`.
+ * - `L` : instance de `LinkBuilder` — utilisée dans les composants pour les liens typés (`L.Link`, `L.NavLink`).
+ *
+ * Pour ajouter une nouvelle route :
+ * 1. Créer la page dans `src/pages/`
+ * 2. Définir la `RouteObject` ici
+ * 3. L'ajouter aux `children` de `RootRoute` et au `linkSchema`
+ */
+import type { RouteSchema } from 'MypkgReact/RouterBuilder/RouteBuilder.tsx'
+import { RouteBuilder, LinkBuilder } from 'MypkgReact/RouterBuilder/RouteBuilder.tsx'
+import type { RouteObject } from 'react-router-dom'
+import MainLayout from '../layouts/MainLayout'
+import Dashboard from '../pages/Dashboard'
+import Indices from '../pages/Indices'
+import Portfolio from '../pages/Portfolio'
+import Transactions from '../pages/Transactions'
+import Settings from '../pages/Settings'
+import NotFound from '../pages/NotFound'
+import { AppInitializer } from '../components/AppInitializer'
+
+// ─── Routes individuelles ────────────────────────────────
+const DashboardRoute: RouteObject = { path: '/', element: <Dashboard />, index: true }
+const IndicesRoute: RouteObject = { path: '/indices', element: <Indices /> }
+const PortfolioRoute: RouteObject = { path: '/portfolio', element: <Portfolio /> }
+const TransactionsRoute: RouteObject = { path: '/transactions', element: <Transactions /> }
+const SettingsRoute: RouteObject = { path: '/settings', element: <Settings /> }
+const NoRoute: RouteObject = { path: '*', element: <NotFound /> }
+
+// ─── Route racine d'initialisation ──────────────────────────
+const InitRoute: RouteObject = {
+    path: '/',
+    element: <AppInitializer />,
+    children: [
+        {
+            path: '/',
+            element: <MainLayout />,
+            children: [DashboardRoute, IndicesRoute, PortfolioRoute, TransactionsRoute, SettingsRoute, NoRoute],
+        }
+    ]
+}
+
+// ─── RouteBuilder (router) ───────────────────────────────
+type RouteName = 'root' | 'noroute'
+const routeSchema: RouteSchema<RouteName> = {
+    root: InitRoute,
+    noroute: NoRoute,
+}
+export const R = new RouteBuilder(routeSchema)
+
+// ─── LinkBuilder (navigation typée) ──────────────────────
+type LinkName = 'dashboard' | 'indices' | 'portfolio' | 'transactions' | 'settings'
+const linkSchema: RouteSchema<LinkName> = {
+    dashboard: DashboardRoute,
+    indices: IndicesRoute,
+    portfolio: PortfolioRoute,
+    transactions: TransactionsRoute,
+    settings: SettingsRoute,
+}
+export const L = new LinkBuilder(linkSchema)

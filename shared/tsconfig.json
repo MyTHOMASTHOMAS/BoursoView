@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "moduleResolution": "bundler", // Ou "node" selon ta version de Vite
+        "baseUrl": ".",
+        "paths": {
+            "MypkgAppsScript/*": ["../mypkg_packages_apps_script/*"],
+            "MypkgTypescript/*": ["../mypkg_packages_typescript/*"],
+        }
+    }
+}

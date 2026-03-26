@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@import "./style/baseTheme/index.scss";
+
+@layer base {
+  body {
+    @apply font-sans m-0 min-h-screen antialiased;
+    background-color: #0f172a; /* Equivalent to surface-main since body can't easily use utility classes before they load */
+    color: #e2e8f0; /* Equivalent to text-primary */
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+}

@@ -1,0 +1,7 @@
+export { DashboardIcon } from './DashboardIcon'
+export { IndicesIcon } from './IndicesIcon'
+export { PortfolioIcon } from './PortfolioIcon'
+export { TransactionsIcon } from './TransactionsIcon'
+export { SettingsIcon } from './SettingsIcon'
+export { ChevronLeftIcon } from './ChevronLeftIcon'
+export { UserIcon } from './UserIcon'

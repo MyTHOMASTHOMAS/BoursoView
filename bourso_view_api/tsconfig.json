@@ -1,0 +1,43 @@
+{
+    "compilerOptions": {
+        /* Configuration de la compilation */
+        "target": "ES2022",           /* CRUCIAL : GAS supporte ES2022. Cela évite la génération des helpers 'var Y' qui plantent. */
+        "useDefineForClassFields": false, /* CRUCIAL : Force une compilation des classes plus simple (legacy) compatible avec GAS. */
+
+        /* Modules */
+        "module": "ESNext",           /* Vite gère le bundling, on laisse TS gérer la syntaxe moderne */
+        "moduleResolution": "bundler",
+
+        /* Bibliothèques et Types */
+        "lib": ["ESNext"],            /* Inclut les dernières fonctionnalités JS */
+        "types": [
+            "google-apps-script",       /* Nécessaire pour l'autocomplétion SpreadsheetApp, etc. */
+            "node"
+        ],
+
+        /* Strictness & Qualité */
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,         /* Ignore les erreurs dans les libs tierces (recommandé) */
+        "forceConsistentCasingInFileNames": true,
+
+        /* Sortie */
+        "outDir": "./dist",
+        "rootDir": "../",
+
+        "paths": {
+            "MypkgAppsScript/*": ["../mypkg_packages_apps_script/*"],
+            "MypkgTypescript/*": ["../mypkg_packages_typescript/*"],
+            "Shared/*": ["../shared/*"],
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}

@@ -1,0 +1,24 @@
+/*
+ * effects.scss — Effets visuels Base Theme
+ */
+
+@layer utilities {
+  [data-theme="base"] {
+    /* ── Glassmorphism ──────────────────────────────────────────── */
+    .glass-card {
+      background-color: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* ── Ombre ───────────────────────────────────────────────────── */
+    .shadow-card    { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+    .shadow-primary { box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2); }
+    .shadow-error   { box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1); }
+
+    /* ── Animations ──────────────────────────────────────────────── */
+    .spinner { animation: spin 1s linear infinite; }
+    .pulse   { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  }
+}

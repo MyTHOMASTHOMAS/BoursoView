@@ -1,0 +1,26 @@
+{
+    "entry": {
+        "main": {
+            "path": "src/main.ts",
+            "env": ".env"
+        },
+        "test": {
+            "path": "src/test.ts",
+            "env": ".env.test"
+        }
+    },
+    "external_lib": [
+        {
+            "alias": "MypkgAppsScript",
+            "path": "../mypkg_packages_apps_script"
+        },
+        {
+            "alias": "MypkgTypescript",
+            "path": "../mypkg_packages_typescript"
+        },
+        {
+            "alias": "Shared",
+            "path": "../shared"
+        }
+    ]
+}

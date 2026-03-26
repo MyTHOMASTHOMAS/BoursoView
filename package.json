@@ -1,0 +1,12 @@
+{
+  "name": "boursow_view",
+  "private": true,
+  "workspaces": [
+    "bourso_view_api",
+    "bourso_view_front"
+  ],
+  "scripts": {
+    "dev-front": "npm run dev --workspace=bourso_view_front",
+    "deploy-back": "npm run deploy --workspace=bourso_view_api"
+  }
+}

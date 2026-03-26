@@ -1,0 +1,28 @@
+/*
+ * index.scss — Barrel d'import du design system Base
+ */
+
+@import "./colors.scss";
+@import "./typography.scss";
+@import "./borders.scss";
+@import "./spacing.scss";
+@import "./effects.scss";
+
+@theme {
+  --color-surface-main: var(--color-surface-main);
+  --color-surface-light: var(--color-surface-light);
+  --color-surface-hover: var(--color-surface-hover);
+  --color-surface-card: var(--color-surface-card);
+  --color-surface-header: var(--color-surface-header);
+
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-light: var(--color-primary-light);
+  --color-brand: var(--color-primary);
+  
+  --color-accent: var(--color-accent);
+  --color-error: var(--color-error);
+}

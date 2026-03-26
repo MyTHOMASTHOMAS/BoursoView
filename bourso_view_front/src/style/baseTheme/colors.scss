@@ -1,0 +1,54 @@
+/*
+ * colors.scss — Palette Base Theme
+ * Thème : Couleurs par défaut de l'application
+ */
+
+@layer utilities {
+  [data-theme="base"] {
+    /* ── Surfaces ───────────────────────────────────────────────── */
+    --color-surface-main: #0f172a;
+    --color-surface-light: #1e293b;
+    --color-surface-hover: #334155;
+    --color-surface-card: rgba(30, 41, 59, 0.4);
+    --color-surface-header: rgba(15, 23, 42, 0.6);
+
+    /* ── Textes ─────────────────────────────────────────────────── */
+    --color-text: #e2e8f0;
+    --color-text-muted: #94a3b8;
+    --color-accent: #22d3ee;
+    --color-error: #ef4444;
+
+    /* ── Primary Brand ──────────────────────────────────────────── */
+    --color-primary: #6366f1;
+    --color-primary-light: #818cf8;
+    --color-primary-dark: #4f46e5;
+  }
+
+  [data-theme="base"] {
+    /* ── Boutons CSS (Optionnels, si non utilisables via utility) ─ */
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: #ffffff;
+      transition: background-color 0.2s ease-in-out;
+      &:hover,
+      &-hover:hover { background-color: var(--color-primary-dark); }
+    }
+
+    /* ── Custom Complex Classes ─────────────────────────────────── */
+    .surface-card { background-color: var(--color-surface-card); }
+    .surface-row-hover:hover { background-color: rgba(99, 102, 241, 0.08); }
+    .accent-primary-halo { background-color: rgba(99, 102, 241, 0.1); }
+    
+    .bg-gradient-primary {
+      background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-accent));
+    }
+    .bg-gradient-primary-subtle {
+      background-image: linear-gradient(to bottom right, rgba(99, 102, 241, 0.3), rgba(34, 211, 238, 0.3));
+    }
+    .nav-item-active {
+      background-color: rgba(99, 102, 241, 0.15);
+      color: var(--color-primary-light);
+      box-shadow: 0 1px 2px 0 rgba(99, 102, 241, 0.1);
+    }
+  }
+}

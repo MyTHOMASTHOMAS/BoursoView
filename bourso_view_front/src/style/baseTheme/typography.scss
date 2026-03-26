@@ -1,0 +1,61 @@
+/*
+ * typography.scss — Style typographique Base Theme
+ * Police : Inter et system-ui
+ */
+
+@layer utilities {
+  [data-theme="base"] {
+    /* Grand titre */
+    .text-heading-xl {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #e2e8f0;
+    }
+    
+    /* Titre moyen */
+    .text-heading-lg {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1.3;
+      color: #e2e8f0;
+    }
+    
+    /* Corps de texte */
+    .text-body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #e2e8f0;
+    }
+    
+    /* Petit texte */
+    .text-small {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      color: #94a3b8;
+    }
+
+    /* Eyebrow / Surtitre (Table headers, petits labels) */
+    .text-eyebrow {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #94a3b8;
+    }
+
+    /* Attributs de texte */
+    .text-italic {
+      font-style: italic;
+    }
+
+    .tracking-wide {
+      letter-spacing: 0.1em;
+    }
+  }
+}

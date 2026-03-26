@@ -1,0 +1,38 @@
+{
+    "project_name": "BoursoView",
+    "use_repo": "Set me",
+    "installed": {
+        "apps_script": {
+            "package": {
+                "CacheManager": {
+                    "path": "mypkg_packages_apps_script/CacheManager",
+                    "version": "v0.X"
+                },
+                "ProcessRouter": {
+                    "path": "mypkg_packages_apps_script/ProcessRouter",
+                    "version": "v0.X"
+                },
+                "SheetsOrm": {
+                    "path": "mypkg_packages_apps_script/SheetsOrm",
+                    "version": "v1.X"
+                }
+            }
+        },
+        "react": {
+            "package": {
+                "AppProvider": {
+                    "path": "mypkg_packages_react/AppProvider",
+                    "version": "v1.X"
+                },
+                "ReactQuery": {
+                    "path": "mypkg_packages_react/ReactQuery",
+                    "version": "v4.X"
+                },
+                "RouterBuilder": {
+                    "path": "mypkg_packages_react/RouterBuilder",
+                    "version": "v1.X"
+                }
+            }
+        }
+    }
+}
