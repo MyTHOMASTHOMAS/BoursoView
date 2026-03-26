@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+    # L'action ne se lancera QUE si des fichiers dans ce dossier sont modifiés
+    paths:
+      - 'bourso_view_front/dist/**'
+  # Permet de lancer le déploiement manuellement depuis l'interface GitHub au besoin
   workflow_dispatch:
 
 permissions:
@@ -16,44 +20,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  # On prépare et on upload le dossier pré-compilé
+  prepare-and-upload:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          # Le cache lit désormais le fichier lock à la racine du monorepo
-          cache-dependency-path: package-lock.json
-
-      - name: Install dependencies
-        # L'installation se fait à la racine pour respecter les workspaces
-        run: npm ci
-
-      - name: Build front
-        # On cible uniquement le frontend avec l'argument workspace (-w)
-        run: npm run build -w bourso_view_front
-
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
-          # Le chemin du build reste le même
+          # On prend directement le dossier dist qui a été poussé sur le repo
           path: bourso_view_front/dist
 
+  # On déploie sur GitHub Pages
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: prepare-and-upload
 
     steps:
       - name: Deploy to GitHub Pages
