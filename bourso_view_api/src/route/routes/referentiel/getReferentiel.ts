@@ -3,7 +3,7 @@ import { Validator as V, ContextType as CT, ResponseType as RT } from "Shared/Ro
 import {defaultStartProcess} from "../defaultStartProcess";
 import referentiel from "../../../service/core/referentiel";
 
-const getReferentielProcess = defaultStartProcess
+const getReferentielProcess = defaultStartProcess<CT.GetReferentielAction>()
     .result(() => ({
         referentiels: referentiel.read.getAll()
     }));

@@ -1,4 +1,4 @@
-import { StartProcess, createMiddlewareError, type ProcessContext } from "MypkgAppsScript/ProcessRouter";
+import { createMiddlewareError, type ProcessContext } from "MypkgAppsScript/ProcessRouter";
 import { getAuthToken } from "../../service/auth";
 
 /**
@@ -36,22 +36,23 @@ type AuthMiddlewareResult = {
  * 
  * @throws {MiddlewareError} Si le token est manquant ou invalide (code 401)
  */
-export const authMiddleware = StartProcess<AuthContext>()
-    .do((ctx: ProcessContext<AuthContext>): AuthMiddlewareResult => {
-        // Récupérer le token attendu depuis la feuille Auth
-        const expectedToken = getAuthToken();
-        
-        // Vérifier que le token correspond
-        if (ctx.contents.authToken !== expectedToken) {
-            throw createMiddlewareError('Token d\'authentification invalide', {
-                code: 401,
-                message: 'Le token fourni n\'est pas valide'
-            });
-        }
-        
-        // Authentification réussie
-        return {
-            authenticated: true,
-            tokenValid: true
-        };
-    });
+export const authMiddleware = <TContext extends AuthContext>(
+    ctx: ProcessContext<TContext>
+): AuthMiddlewareResult => {
+    // Récupérer le token attendu depuis la feuille Auth
+    const expectedToken = getAuthToken();
+
+    // Vérifier que le token correspond
+    if (ctx.contents.authToken !== expectedToken) {
+        throw createMiddlewareError("Token d'authentification invalide", {
+            code: 401,
+            message: "Le token fourni n'est pas valide"
+        });
+    }
+
+    // Authentification réussie
+    return {
+        authenticated: true,
+        tokenValid: true
+    };
+};

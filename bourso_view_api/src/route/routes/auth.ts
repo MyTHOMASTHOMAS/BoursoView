@@ -7,7 +7,7 @@ import {defaultStartProcess} from "./defaultStartProcess";
  * Logique métier pour la route auth
  * Utilise le middleware d'authentification pour vérifier le token
  */
-const authProcess = defaultStartProcess
+const authProcess = defaultStartProcess<CT.AuthAction>()
     // Si on arrive ici, l'authentification a réussi
     .result((ctx) => ({
         message: "Authentifié avec succès"

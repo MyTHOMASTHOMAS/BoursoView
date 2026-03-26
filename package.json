@@ -8,5 +8,8 @@
   "scripts": {
     "dev-front": "npm run dev --workspace=bourso_view_front",
     "deploy-back": "npm run deploy --workspace=bourso_view_api"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
