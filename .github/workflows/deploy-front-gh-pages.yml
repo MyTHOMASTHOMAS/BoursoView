@@ -28,15 +28,16 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: bourso_view_front/package-lock.json
+          # Le cache lit désormais le fichier lock à la racine du monorepo
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        working-directory: bourso_view_front
+        # L'installation se fait à la racine pour respecter les workspaces
         run: npm ci
 
       - name: Build front
-        working-directory: bourso_view_front
-        run: npm run build
+        # On cible uniquement le frontend avec l'argument workspace (-w)
+        run: npm run build -w bourso_view_front
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -44,6 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # Le chemin du build reste le même
           path: bourso_view_front/dist
 
   deploy:
