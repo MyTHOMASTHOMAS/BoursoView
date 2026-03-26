@@ -29,7 +29,7 @@ const providers = [
 function App() {
   return (
     <AppProvider providers={providers}>
-      <RouterProvider router={R.router(['root', 'noroute'])} />
+      <RouterProvider router={R.router(['root', 'noroute'], { basename: import.meta.env.BASE_URL })} />
     </AppProvider>
   )
 }
