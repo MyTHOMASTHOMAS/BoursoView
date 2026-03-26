@@ -3,10 +3,7 @@ name: Deploy Front to GitHub Pages
 on:
   push:
     branches:
-      - master
-    # L'action ne se lancera QUE si des fichiers dans ce dossier sont modifiés
-    paths:
-      - 'bourso_view_front/dist/**'
+      - gh-pages
   # Permet de lancer le déploiement manuellement depuis l'interface GitHub au besoin
   workflow_dispatch:
 
@@ -35,7 +32,7 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           # On prend directement le dossier dist qui a été poussé sur le repo
-          path: bourso_view_front/dist
+          path: .
 
   # On déploie sur GitHub Pages
   deploy:
