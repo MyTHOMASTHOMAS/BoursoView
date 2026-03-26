@@ -46,6 +46,7 @@ export default defineConfig({
       }
     })
   ],
+  base: '/BoursoView/',
   resolve: {
     alias: {
       'MypkgReact': path.resolve(__dirname, '../mypkg_packages_react'),
