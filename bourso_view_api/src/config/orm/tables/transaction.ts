@@ -1,5 +1,7 @@
 import { TableConfig } from "MypkgAppsScript/SheetsOrm/table/TableTypes";
 import { Position } from "MypkgAppsScript/SheetsService/src/SheetServiceTypes";
+import {isNumber} from "MypkgTypescript/Validator/src/ValidatorSchema/BaseSchema/Base";
+import {googleSerialToDate} from "../../../utils/conversion/sheetsDateConversion";
 
 /**
  * Configuration de la table Transaction
@@ -22,7 +24,11 @@ export const TRANSACTION_TABLE_CONFIG: TableConfig = {
     dataConfig: [
         { name: "id" },
         { name: "titre", readonly: true }, // Lecture seule
-        { name: "date" },
+        { name: "date", transform:
+                (value) => typeof value === "number"
+                    ? googleSerialToDate(value).toISOString()
+                    : 'error'
+        },
         { name: "price" },
         { name: "nb" },
         { name: "commission" },

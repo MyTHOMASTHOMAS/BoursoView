@@ -3,10 +3,30 @@ import { PaginatedTable, type TableColumn } from '../components/Table'
 import { useTransactions, useAppStore } from '../store'
 import type { ResponseType as RT } from 'Shared/RouteType'
 
+function formatIsoDateForDisplay(isoDate: string): string {
+    const date = new Date(isoDate)
+
+    if (Number.isNaN(date.getTime())) {
+        return isoDate
+    }
+
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = date.getFullYear()
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+
+    return `${day}/${month}/${year} - ${hours}:${minutes}`
+}
+
 const columns: TableColumn<RT.TransactionItem>[] = [
     { header: 'ID', accessor: 'id' },
     { header: 'Titre', accessor: 'titre' },
-    { header: 'Date', accessor: 'date' },
+    {
+        header: 'Date',
+        accessor: 'date',
+        render: (row) => formatIsoDateForDisplay(row.date as string)
+    },
     { header: 'Prix', accessor: 'price' },
     { header: 'Quantité', accessor: 'nb' },
     { header: 'Commission', accessor: 'commission' },
