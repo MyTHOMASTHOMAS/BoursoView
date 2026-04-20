@@ -4,6 +4,7 @@ import { AUTH_TOKEN } from "../config";
 import { healthSuite } from "../../src/test/health";
 import { createAuthSuite } from "../../src/test/auth";
 import { createReferentielSuite } from "../../src/test/referentiel";
+import {createAchatSuite} from "../../src/test/achat";
 
 // ============================================
 // Registre de toutes les suites de test
@@ -13,6 +14,7 @@ const suites: TestSuite[] = [
     healthSuite,
     createAuthSuite(AUTH_TOKEN),
     createReferentielSuite(AUTH_TOKEN),
+    createAchatSuite(AUTH_TOKEN)
 ];
 
 // ============================================
