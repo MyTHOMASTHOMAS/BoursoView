@@ -5,6 +5,7 @@ type PaginatedTableProps<T extends Record<string, unknown>> = {
     columns: TableColumn<T>[]
     data: T[]
     emptyMessage?: string
+    loadingMessage?: string
     page: number
     pageSize: number
     onPageChange: (nextPage: number) => void
@@ -16,6 +17,7 @@ export function PaginatedTable<T extends Record<string, unknown>>({
     columns,
     data,
     emptyMessage,
+    loadingMessage = 'Chargement des données...',
     page,
     pageSize,
     onPageChange,
@@ -29,7 +31,13 @@ export function PaginatedTable<T extends Record<string, unknown>>({
 
     return (
         <div className="space-y-3">
-            <Table columns={columns} data={data} emptyMessage={emptyMessage} />
+            <Table
+                columns={columns}
+                data={data}
+                emptyMessage={emptyMessage}
+                onLoad={isLoading}
+                loadingMessage={loadingMessage}
+            />
 
             <div className="flex items-center justify-between gap-3">
                 <p className="text-sm text-muted">

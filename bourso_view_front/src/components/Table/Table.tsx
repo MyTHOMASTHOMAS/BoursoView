@@ -1,16 +1,29 @@
 import { TableHeader, type TableColumn } from './TableHeader'
+import { Loader } from '../loading'
 
 type TableProps<T> = {
     columns: TableColumn<T>[]
     data: T[]
     emptyMessage?: string
+    onLoad?: boolean
+    loadingMessage?: string
 }
 
 export function Table<T extends Record<string, unknown>>({
     columns,
     data,
-    emptyMessage = 'Aucune donnée à afficher.'
+    emptyMessage = 'Aucune donnée à afficher.',
+    onLoad = false,
+    loadingMessage = 'Chargement des données...'
 }: TableProps<T>) {
+    if (onLoad) {
+        return (
+            <div className="my-5 rounded-2xl bg-surface-card backdrop-blur-sm border border-white/5 p-2">
+                <Loader message={loadingMessage} />
+            </div>
+        )
+    }
+
     if (!data || data.length === 0) {
         return (
             <div className="my-5 rounded-2xl bg-surface-card backdrop-blur-sm border border-white/5 p-8 text-center">

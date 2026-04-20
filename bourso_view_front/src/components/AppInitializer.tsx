@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useAppStore } from '../store'
 import { api } from '../api/api'
+import { PageLoader } from './loading'
 
 /**
  * Composant responsable de l'initialisation de l'application.
@@ -51,14 +52,7 @@ export function AppInitializer() {
     // 1. Écran de chargement initialisé
     // On affiche l'écran de chargement si les requêtes sont en cours ET qu'on n'a pas encore de certitude (token/backend null)
     if ((backOnline === null && userValid === null) || isInitializing) {
-        return (
-            <div className="flex h-screen w-screen items-center justify-center surface-main text-primary">
-                <div className="flex flex-col items-center gap-4">
-                    <div className="h-10 w-10 spinner radius-full border-4 border-primary border-t-transparent"></div>
-                    <p className="font-medium pulse">Connexion au serveur...</p>
-                </div>
-            </div>
-        )
+        return <PageLoader message="Connexion au serveur..." />
     }
 
     // 2. Erreur d'Authentification (Prioritaire)

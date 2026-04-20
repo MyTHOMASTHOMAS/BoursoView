@@ -17,10 +17,6 @@ export default function Indices() {
         refetchReferentiels
     } = useReferentiel()
 
-    if (referentielsLoading) {
-        return <p className="text-muted">Chargement des referentiels...</p>
-    }
-
     if (referentielsError) {
         return (
             <div className="space-y-3">
@@ -55,6 +51,8 @@ export default function Indices() {
             <Table
                 columns={columns}
                 data={referentiels}
+                onLoad={referentielsLoading}
+                loadingMessage="Chargement des referentiels..."
                 emptyMessage="Aucun referentiel disponible."
             />
         </div>

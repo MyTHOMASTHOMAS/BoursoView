@@ -45,10 +45,6 @@ export default function Transactions() {
         )
     }
 
-    if (transactionsLoading) {
-        return <p className="text-muted">Chargement des transactions...</p>
-    }
-
     if (transactionsError) {
         return (
             <div className="space-y-3">
@@ -84,6 +80,7 @@ export default function Transactions() {
                 columns={columns}
                 data={transactions}
                 emptyMessage="Aucune transaction disponible."
+                loadingMessage="Chargement des transactions..."
                 page={page}
                 pageSize={pageSize}
                 hasNextPage={hasNextPage}
