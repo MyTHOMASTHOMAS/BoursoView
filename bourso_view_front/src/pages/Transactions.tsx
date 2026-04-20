@@ -81,13 +81,15 @@ export default function Transactions() {
 
     return (
         <div className="space-y-4">
-            <div className="flex items-center justify-between gap-4">
+            <div>
                 <div>
                     <h1 className="text-heading-xl text-primary">Transactions</h1>
                     <p className="mt-1 text-muted">
                         Visualisation de vos lignes de transactions.
                     </p>
                 </div>
+            </div>
+            <div className="flex justify-end">
                 <button
                     onClick={() => void refetchTransactions()}
                     className="btn-padding radius-btn border border-subtle text-primary hover:surface-hover transition-colors cursor-pointer"
