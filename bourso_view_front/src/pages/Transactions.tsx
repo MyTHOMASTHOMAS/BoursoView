@@ -1,4 +1,5 @@
-import { Table, type TableColumn } from '../components/Table'
+import { useMemo, useState } from 'react'
+import { PaginatedTable, type TableColumn } from '../components/Table'
 import { useTransactions, useAppStore } from '../store'
 import type { ResponseType as RT } from 'Shared/RouteType'
 
@@ -15,13 +16,25 @@ const columns: TableColumn<RT.TransactionItem>[] = [
 ]
 
 export default function Transactions() {
+    const [page, setPage] = useState(1)
+    const pageSize = 5
     const token = useAppStore((state) => state.token)
+    const paginationOptions = useMemo(
+        () => ({
+            limit: pageSize,
+            offset: (page - 1) * pageSize
+        }),
+        [page]
+    )
+
     const {
         transactions,
         transactionsLoading,
         transactionsError,
         refetchTransactions
-    } = useTransactions()
+    } = useTransactions(paginationOptions)
+
+    const hasNextPage = transactions.length === pageSize
 
     if (!token) {
         return (
@@ -67,10 +80,15 @@ export default function Transactions() {
                 </button>
             </div>
 
-            <Table
+            <PaginatedTable
                 columns={columns}
                 data={transactions}
                 emptyMessage="Aucune transaction disponible."
+                page={page}
+                pageSize={pageSize}
+                hasNextPage={hasNextPage}
+                isLoading={transactionsLoading}
+                onPageChange={setPage}
             />
         </div>
     )
