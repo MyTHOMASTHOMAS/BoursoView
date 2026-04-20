@@ -6,7 +6,7 @@ import SidebarNavLink from './SidebarNavLink'
 const navItems = [
     { routeName: 'dashboard' as const, label: 'Dashboard', icon: <DashboardIcon /> },
     { routeName: 'indices' as const, label: 'Indices', icon: <IndicesIcon /> },
-    { routeName: 'portfolio' as const, label: 'Portfolio', icon: <PortfolioIcon /> },
+    { routeName: 'achats' as const, label: 'Achats', icon: <PortfolioIcon /> },
     { routeName: 'transactions' as const, label: 'Transactions', icon: <TransactionsIcon /> },
     { routeName: 'settings' as const, label: 'Paramètres', icon: <SettingsIcon /> },
 ]

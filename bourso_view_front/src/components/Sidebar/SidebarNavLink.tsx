@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { L } from '../../routes/Routes'
 
 interface SidebarNavLinkProps {
-    routeName: 'dashboard' | 'indices' | 'portfolio' | 'transactions' | 'settings'
+    routeName: 'dashboard' | 'indices' | 'achats' | 'transactions' | 'settings'
     label: string
     icon: ReactNode
     expanded: boolean
