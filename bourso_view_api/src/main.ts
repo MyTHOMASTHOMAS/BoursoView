@@ -1,6 +1,5 @@
 import { router } from "./route/route";
 import { createSuccessResponse } from "MypkgAppsScript/ProcessRouter";
-import {createErrorResponse} from "MypkgAppsScript/ProcessRouter/src/Response";
 
 /**
  * Point d'entrée pour les requêtes GET de Google Apps Script

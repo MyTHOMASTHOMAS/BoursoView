@@ -1,36 +1,36 @@
 import type { TestSuite } from "../types";
 
-/** Aligné sur {@link import("Shared/RouteType").Actions.map.getAchatsAction} */
-const GET_ACHATS_ACTION = "getAchats";
-/** Aligné sur {@link import("Shared/RouteType").Actions.map.createAchatAction} */
-const CREATE_ACHAT_ACTION = "createAchat";
-/** Aligné sur {@link import("Shared/RouteType").Actions.map.deleteAchatAction} */
-const DELETE_ACHAT_ACTION = "deleteAchat";
+/** Aligné sur {@link import("Shared/RouteType").Actions.map.getTransactionsAction} */
+const GET_TRANSACTIONS_ACTION = "getTransactions";
+/** Aligné sur {@link import("Shared/RouteType").Actions.map.createTransactionAction} */
+const CREATE_TRANSACTION_ACTION = "createTransaction";
+/** Aligné sur {@link import("Shared/RouteType").Actions.map.deleteTransactionAction} */
+const DELETE_TRANSACTION_ACTION = "deleteTransaction";
 
 /**
- * Suite de tests pour les routes Achat.
+ * Suite de tests pour les routes Transaction.
  * Structure identique aux suites Auth/Referentiel.
  */
-export function createAchatSuite(authToken: string): TestSuite {
-    const uniqueId = `test-achat-${Date.now()}`;
+export function createTransactionSuite(authToken: string): TestSuite {
+    const uniqueId = `test-transaction-${Date.now()}`;
 
     return {
-        name: "Achat",
-        description: "Tests des routes achat (getAchats, createAchat, deleteAchat)",
+        name: "Transaction",
+        description: "Tests des routes transaction (getTransactions, createTransaction, deleteTransaction)",
         tests: [
             {
-                name: "Liste des achats avec token valide",
-                description: "Retourne success avec data.achats quand token, limit et offset sont valides",
+                name: "Liste des transactions avec token valide",
+                description: "Retourne success avec data.transactions quand token, limit et offset sont valides",
                 method: "POST",
-                action: GET_ACHATS_ACTION,
+                action: GET_TRANSACTIONS_ACTION,
                 body: { authToken, limit: 50, offset: 0 },
                 assertions: [{ field: "success", expected: true }]
             },
             {
-                name: "Création achat valide",
-                description: "Crée un achat et retourne createdCount=1",
+                name: "Création transaction valide",
+                description: "Crée une transaction et retourne createdCount=1",
                 method: "POST",
-                action: CREATE_ACHAT_ACTION,
+                action: CREATE_TRANSACTION_ACTION,
                 body: {
                     authToken,
                     id: uniqueId,
@@ -46,10 +46,10 @@ export function createAchatSuite(authToken: string): TestSuite {
                 ]
             },
             {
-                name: "Suppression achat (ligne inexistante)",
-                description: "Appelle deleteAchat avec une ligne hors limites et retourne deleted=false",
+                name: "Suppression transaction (ligne inexistante)",
+                description: "Appelle deleteTransaction avec une ligne hors limites et retourne deleted=false",
                 method: "POST",
-                action: DELETE_ACHAT_ACTION,
+                action: DELETE_TRANSACTION_ACTION,
                 body: {
                     authToken,
                     line: 999999
@@ -60,10 +60,10 @@ export function createAchatSuite(authToken: string): TestSuite {
                 ]
             },
             {
-                name: "Get achats token invalide",
-                description: "401 si le token de getAchats est invalide",
+                name: "Get transactions token invalide",
+                description: "401 si le token de getTransactions est invalide",
                 method: "POST",
-                action: GET_ACHATS_ACTION,
+                action: GET_TRANSACTIONS_ACTION,
                 body: { authToken: "token-invalide-123", limit: 10, offset: 0 },
                 assertions: [
                     { field: "success", expected: false },
@@ -71,10 +71,10 @@ export function createAchatSuite(authToken: string): TestSuite {
                 ]
             },
             {
-                name: "Create achat token manquant",
-                description: "400 si authToken est absent sur createAchat",
+                name: "Create transaction token manquant",
+                description: "400 si authToken est absent sur createTransaction",
                 method: "POST",
-                action: CREATE_ACHAT_ACTION,
+                action: CREATE_TRANSACTION_ACTION,
                 body: {
                     id: `missing-token-${Date.now()}`,
                     date: "2026-01-01",

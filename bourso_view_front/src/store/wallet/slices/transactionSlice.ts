@@ -4,22 +4,22 @@ import { useAppStore } from '../../useAppStore'
 import { api } from '../../../api/api'
 import type { ResponseType as RT } from 'Shared/RouteType'
 
-export interface AchatSlice {}
+export interface TransactionSlice {}
 
-export const createAchatSlice: StateCreator<AchatSlice, [], [], AchatSlice> = () => ({})
+export const createTransactionSlice: StateCreator<TransactionSlice, [], [], TransactionSlice> = () => ({})
 
-export type UseAchatsResult = {
-    achats: RT.AchatItem[]
-    achatsLoading: boolean
-    achatsError: string | null
-    refetchAchats: () => Promise<unknown>
+export type UseTransactionsResult = {
+    transactions: RT.TransactionItem[]
+    transactionsLoading: boolean
+    transactionsError: string | null
+    refetchTransactions: () => Promise<unknown>
 }
 
 /**
- * Hook metier du slice achat.
- * Toute la logique de lecture des achats (query + etat local) est centralisee ici.
+ * Hook metier du slice transaction.
+ * Toute la logique de lecture des transactions (query + etat local) est centralisee ici.
  */
-export const useAchats = (): UseAchatsResult => {
+export const useTransactions = (): UseTransactionsResult => {
     const token = useAppStore((state) => state.token)
 
     // Important: query key inclut le body pour ce POST.
@@ -29,20 +29,20 @@ export const useAchats = (): UseAchatsResult => {
         [token]
     )
 
-    const query = api.getAchats.useQuery.post(
+    const query = api.getTransactions.useQuery.post(
         { body },
         { enabled: Boolean(token) }
     )
 
     return {
-        achats: query.data?.success === true ? query.data.data.achats : [],
-        achatsLoading: query.isLoading || query.isFetching,
-        achatsError:
+        transactions: query.data?.success === true ? query.data.data.transactions : [],
+        transactionsLoading: query.isLoading || query.isFetching,
+        transactionsError:
             query.data?.success === false
                 ? query.data.error
                 : query.error instanceof Error
                     ? query.error.message
                     : null,
-        refetchAchats: query.refetch
+        refetchTransactions: query.refetch
     }
 }

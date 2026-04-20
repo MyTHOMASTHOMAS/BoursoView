@@ -2,12 +2,12 @@ import { TableConfig } from "MypkgAppsScript/SheetsOrm/table/TableTypes";
 import { Position } from "MypkgAppsScript/SheetsService/src/SheetServiceTypes";
 
 /**
- * Configuration de la table Achat
+ * Configuration de la table Transaction
  * 
  * Colonnes :
  * - id : Identifiant unique (élément contigu)
  * - titre : Titre (lecture seule)
- * - date : Date d'achat
+ * - date : Date de transaction
  * - price : Prix
  * - nb : Nombre
  * - commission : Commission
@@ -15,8 +15,8 @@ import { Position } from "MypkgAppsScript/SheetsService/src/SheetServiceTypes";
  * - pru : Prix de revient unitaire (lecture seule)
  * - total : Total (lecture seule)
  */
-export const ACHAT_TABLE_CONFIG: TableConfig = {
-    sheetName: "Achat",
+export const TRANSACTION_TABLE_CONFIG: TableConfig = {
+    sheetName: "Transaction",
     startPos: [0, 1] as Position, // Colonne A, Ligne 2 (ligne 1 = en-têtes)
     markedIndex: 0, // Colonne id comme marqueur contigu
     dataConfig: [

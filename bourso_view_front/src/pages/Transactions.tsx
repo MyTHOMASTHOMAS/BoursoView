@@ -1,24 +1,77 @@
+import { Table, type TableColumn } from '../components/Table'
+import { useTransactions, useAppStore } from '../store'
+import type { ResponseType as RT } from 'Shared/RouteType'
+
+const columns: TableColumn<RT.TransactionItem>[] = [
+    { header: 'ID', accessor: 'id' },
+    { header: 'Titre', accessor: 'titre' },
+    { header: 'Date', accessor: 'date' },
+    { header: 'Prix', accessor: 'price' },
+    { header: 'Quantité', accessor: 'nb' },
+    { header: 'Commission', accessor: 'commission' },
+    { header: 'Frais', accessor: 'fee' },
+    { header: 'PRU', accessor: 'pru' },
+    { header: 'Total', accessor: 'total' },
+]
+
 export default function Transactions() {
-    return (
-        <div className="space-y-6">
-            <div>
+    const token = useAppStore((state) => state.token)
+    const {
+        transactions,
+        transactionsLoading,
+        transactionsError,
+        refetchTransactions
+    } = useTransactions()
+
+    if (!token) {
+        return (
+            <div className="space-y-3">
                 <h1 className="text-heading-xl text-primary">Transactions</h1>
-                <p className="mt-1 text-muted">
-                    Historique de toutes vos opérations.
-                </p>
+                <p className="text-muted">Aucun token d'authentification disponible.</p>
+            </div>
+        )
+    }
+
+    if (transactionsLoading) {
+        return <p className="text-muted">Chargement des transactions...</p>
+    }
+
+    if (transactionsError) {
+        return (
+            <div className="space-y-3">
+                <p className="text-error">Erreur: {transactionsError}</p>
+                <button
+                    onClick={() => void refetchTransactions()}
+                    className="btn-padding radius-btn btn-primary transition-colors cursor-pointer"
+                >
+                    Reessayer
+                </button>
+            </div>
+        )
+    }
+
+    return (
+        <div className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+                <div>
+                    <h1 className="text-heading-xl text-primary">Transactions</h1>
+                    <p className="mt-1 text-muted">
+                        Visualisation de vos lignes de transactions.
+                    </p>
+                </div>
+                <button
+                    onClick={() => void refetchTransactions()}
+                    className="btn-padding radius-btn border border-subtle text-primary hover:surface-hover transition-colors cursor-pointer"
+                >
+                    Rafraichir
+                </button>
             </div>
 
-            <div className="glass-card radius-card card-large-padding text-center">
-                <div className="w-16 h-16 mx-auto radius-card accent-primary-halo flex items-center justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-8 h-8 text-brand">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                    </svg>
-                </div>
-                <h3 className="text-heading-lg">Aucune transaction</h3>
-                <p className="text-muted mt-2 max-w-md mx-auto">
-                    Vos transactions apparaîtront ici une fois votre compte connecté.
-                </p>
-            </div>
+            <Table
+                columns={columns}
+                data={transactions}
+                emptyMessage="Aucune transaction disponible."
+            />
         </div>
     )
 }

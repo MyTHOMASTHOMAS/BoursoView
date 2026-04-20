@@ -6,10 +6,10 @@ export { health, type HealthMethodsConfig } from './health'
 export { auth, type AuthMethodsConfig } from './auth'
 export { referentiel, type ReferentielMethodsConfig } from './referentiel'
 export {
-    getAchats,
-    createAchat,
-    deleteAchat,
-    type GetAchatsMethodsConfig,
-    type CreateAchatMethodsConfig,
-    type DeleteAchatMethodsConfig
-} from './achat'
+    getTransactions,
+    createTransaction,
+    deleteTransaction,
+    type GetTransactionsMethodsConfig,
+    type CreateTransactionMethodsConfig,
+    type DeleteTransactionMethodsConfig
+} from './transaction'

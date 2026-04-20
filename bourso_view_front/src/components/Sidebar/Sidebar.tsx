@@ -1,12 +1,11 @@
 import { useSidebarContext } from '../../features/sidebar/SidebarProvider'
 import { useIsMobile } from '../hooks/useIsMobile'
-import { DashboardIcon, IndicesIcon, PortfolioIcon, TransactionsIcon, SettingsIcon, ChevronLeftIcon, UserIcon } from '../icons'
+import { DashboardIcon, IndicesIcon, TransactionsIcon, SettingsIcon, ChevronLeftIcon, UserIcon } from '../icons'
 import SidebarNavLink from './SidebarNavLink'
 
 const navItems = [
     { routeName: 'dashboard' as const, label: 'Dashboard', icon: <DashboardIcon /> },
     { routeName: 'indices' as const, label: 'Indices', icon: <IndicesIcon /> },
-    { routeName: 'achats' as const, label: 'Achats', icon: <PortfolioIcon /> },
     { routeName: 'transactions' as const, label: 'Transactions', icon: <TransactionsIcon /> },
     { routeName: 'settings' as const, label: 'Paramètres', icon: <SettingsIcon /> },
 ]

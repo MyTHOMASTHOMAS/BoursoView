@@ -2,7 +2,7 @@
 
 // Tu ajoutes juste une ligne par fichier ici :
 export * from "./auth";
-export * from "./achat";
+export * from "./transaction";
 export * from "./error";
 export * from "./health";
 export * from "./referentiel";

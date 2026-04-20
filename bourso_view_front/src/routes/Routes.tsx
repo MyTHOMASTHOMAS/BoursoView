@@ -20,7 +20,6 @@ import type { RouteObject } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import Dashboard from '../pages/Dashboard'
 import Indices from '../pages/Indices'
-import Achats from '../pages/Achats'
 import Transactions from '../pages/Transactions'
 import Settings from '../pages/Settings'
 import NotFound from '../pages/NotFound'
@@ -29,7 +28,6 @@ import { AppInitializer } from '../components/AppInitializer'
 // ─── Routes individuelles ────────────────────────────────
 const DashboardRoute: RouteObject = { path: '/', element: <Dashboard />, index: true }
 const IndicesRoute: RouteObject = { path: '/indices', element: <Indices /> }
-const AchatsRoute: RouteObject = { path: '/achats', element: <Achats /> }
 const TransactionsRoute: RouteObject = { path: '/transactions', element: <Transactions /> }
 const SettingsRoute: RouteObject = { path: '/settings', element: <Settings /> }
 const NoRoute: RouteObject = { path: '*', element: <NotFound /> }
@@ -42,7 +40,7 @@ const InitRoute: RouteObject = {
         {
             path: '/',
             element: <MainLayout />,
-            children: [DashboardRoute, IndicesRoute, AchatsRoute, TransactionsRoute, SettingsRoute, NoRoute],
+            children: [DashboardRoute, IndicesRoute, TransactionsRoute, SettingsRoute, NoRoute],
         }
     ]
 }
@@ -56,11 +54,10 @@ const routeSchema: RouteSchema<RouteName> = {
 export const R = new RouteBuilder(routeSchema)
 
 // ─── LinkBuilder (navigation typée) ──────────────────────
-type LinkName = 'dashboard' | 'indices' | 'achats' | 'transactions' | 'settings'
+type LinkName = 'dashboard' | 'indices' | 'transactions' | 'settings'
 const linkSchema: RouteSchema<LinkName> = {
     dashboard: DashboardRoute,
     indices: IndicesRoute,
-    achats: AchatsRoute,
     transactions: TransactionsRoute,
     settings: SettingsRoute,
 }

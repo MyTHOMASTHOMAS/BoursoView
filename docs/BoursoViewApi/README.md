@@ -28,7 +28,7 @@ BoursoViewApi/
 │   │       ├── index.ts
 │   │       └── tables/
 │   │           ├── referentiel.ts
-│   │           ├── achat.ts
+│   │           ├── transaction.ts
 │   │           └── dividende.ts
 │   └── test/
 │       ├── types.ts
@@ -99,7 +99,7 @@ BoursoViewApi/
   - Cree l'instance ORM via `createOrmInstance(spreadsheetId)`.
 
 - `src/config/orm/tables/*.ts`
-  - Decrivent les tables Google Sheets (`Referentiel`, `Achat`, `Dividende`) :
+  - Decrivent les tables Google Sheets (`Referentiel`, `Transaction`, `Dividende`) :
     - nom de feuille,
     - position de depart,
     - colonne marqueur,

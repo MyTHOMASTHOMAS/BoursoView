@@ -1,6 +1,6 @@
 import { SheetOrm, BaseOrmConfig } from "MypkgAppsScript/SheetsOrm";
 import { REFERENTIEL_TABLE_CONFIG } from "./tables/referentiel";
-import { ACHAT_TABLE_CONFIG } from "./tables/achat";
+import { TRANSACTION_TABLE_CONFIG } from "./tables/transaction";
 import { DIVIDENDE_TABLE_CONFIG } from "./tables/dividende";
 
 /**
@@ -11,7 +11,7 @@ import { DIVIDENDE_TABLE_CONFIG } from "./tables/dividende";
  */
 export const ORM_CONFIG = {
     referentiel: REFERENTIEL_TABLE_CONFIG,
-    achat: ACHAT_TABLE_CONFIG,
+    transaction: TRANSACTION_TABLE_CONFIG,
     dividende: DIVIDENDE_TABLE_CONFIG
 } as const satisfies BaseOrmConfig;
 

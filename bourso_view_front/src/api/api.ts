@@ -8,7 +8,7 @@
  */
 import { createApi } from 'MypkgReact/ReactQuery/ReactQueryBuilder'
 import { ApiClient } from 'MypkgTypescript/ApiClient/ApiClient'
-import { health, auth, referentiel, getAchats, createAchat, deleteAchat } from './routes'
+import { health, auth, referentiel, getTransactions, createTransaction, deleteTransaction } from './routes'
 
 // 1. Récupère l'URL
 // @ts-ignore
@@ -28,7 +28,7 @@ export const api = Object.assign(createApi(baseUrl, {
     health,
     auth,
     referentiel,
-    getAchats,
-    createAchat,
-    deleteAchat,
+    getTransactions,
+    createTransaction,
+    deleteTransaction,
 }), { client: apiClient });

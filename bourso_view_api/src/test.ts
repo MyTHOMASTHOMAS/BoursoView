@@ -11,7 +11,7 @@ import { AUTH_TOKEN } from "./test/config";
 import { createAuthSuite } from "./test/auth";
 import { createReferentielSuite } from "./test/referentiel";
 import { healthSuite } from "./test/health";
-import { createAchatSuite } from "./test/achat";
+import { createTransactionSuite } from "./test/transaction";
 
 /**
  * Exécute tous les tests via le runner GAS
@@ -23,7 +23,7 @@ export function runAllTests(): void {
     runSuiteGas(healthSuite);
     runSuiteGas(createAuthSuite(AUTH_TOKEN!));
     runSuiteGas(createReferentielSuite(AUTH_TOKEN!));
-    runSuiteGas(createAchatSuite(AUTH_TOKEN!));
+    runSuiteGas(createTransactionSuite(AUTH_TOKEN!));
 
     Logger.log("============================================");
     Logger.log("✅ Tous les tests terminés");

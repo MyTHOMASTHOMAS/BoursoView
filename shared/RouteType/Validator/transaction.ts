@@ -1,6 +1,6 @@
 import { NVB } from "MypkgTypescript/Validator";
 
-export const getAchatsAction = NVB()
+export const getTransactionsAction = NVB()
     .isRequired()
     .isObject({
         objSchema: {
@@ -10,7 +10,7 @@ export const getAchatsAction = NVB()
         }
     });
 
-export const createAchatAction = NVB()
+export const createTransactionAction = NVB()
     .isRequired()
     .isObject({
         objSchema: {
@@ -24,7 +24,7 @@ export const createAchatAction = NVB()
         }
     });
 
-export const deleteAchatAction = NVB()
+export const deleteTransactionAction = NVB()
     .isRequired()
     .isObject({
         objSchema: {

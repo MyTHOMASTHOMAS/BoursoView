@@ -1,21 +1,21 @@
 /**
- * Routes achat — POST /?action=getAchats|createAchat|deleteAchat
+ * Routes transaction — POST /?action=getTransactions|createTransaction|deleteTransaction
  * Déclaration des types et de la configuration des endpoints.
  */
 import type { ApiEndpointConfig } from '../api.config_utils.ts'
 import { type ContextType, type ResponseType, Actions } from 'Shared/RouteType'
 
-export type GetAchatsMethodsConfig = ApiEndpointConfig<
-    ContextType.GetAchatsAction,
-    ResponseType.GetAchatAction
+export type GetTransactionsMethodsConfig = ApiEndpointConfig<
+    ContextType.GetTransactionsAction,
+    ResponseType.GetTransactionsAction
 >
 
-export const getAchats: GetAchatsMethodsConfig = {
-    key: 'getAchats',
+export const getTransactions: GetTransactionsMethodsConfig = {
+    key: 'getTransactions',
     path: '',
     endpointsOptions: {
         post: {
-            defaultQueryParams: { action: Actions.map.getAchatsAction },
+            defaultQueryParams: { action: Actions.map.getTransactionsAction },
             include_body_in_cache_key: true
         },
     },
@@ -36,32 +36,32 @@ export const getAchats: GetAchatsMethodsConfig = {
     }
 }
 
-export type CreateAchatMethodsConfig = ApiEndpointConfig<
-    ContextType.CreateAchatAction,
-    ResponseType.CreateAchatAction
+export type CreateTransactionMethodsConfig = ApiEndpointConfig<
+    ContextType.CreateTransactionAction,
+    ResponseType.CreateTransactionAction
 >
 
-export const createAchat: CreateAchatMethodsConfig = {
-    key: 'createAchat',
+export const createTransaction: CreateTransactionMethodsConfig = {
+    key: 'createTransaction',
     path: '',
     endpointsOptions: {
         post: {
-            defaultQueryParams: { action: Actions.map.createAchatAction }
+            defaultQueryParams: { action: Actions.map.createTransactionAction }
         },
     },
 }
 
-export type DeleteAchatMethodsConfig = ApiEndpointConfig<
-    ContextType.DeleteAchatAction,
-    ResponseType.DeleteAchatAction
+export type DeleteTransactionMethodsConfig = ApiEndpointConfig<
+    ContextType.DeleteTransactionAction,
+    ResponseType.DeleteTransactionAction
 >
 
-export const deleteAchat: DeleteAchatMethodsConfig = {
-    key: 'deleteAchat',
+export const deleteTransaction: DeleteTransactionMethodsConfig = {
+    key: 'deleteTransaction',
     path: '',
     endpointsOptions: {
         post: {
-            defaultQueryParams: { action: Actions.map.deleteAchatAction }
+            defaultQueryParams: { action: Actions.map.deleteTransactionAction }
         },
     },
 }

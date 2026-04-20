@@ -1,9 +1,9 @@
 import { createProcessRouter, type PostRouteRegistry } from "MypkgAppsScript/ProcessRouter";
 import { authRoute } from "./routes/auth";
 import { getReferentielRoute } from "./routes/referentiel/getReferentiel";
-import { createAchatRoute } from "./routes/achat/createAchat";
-import { deleteAchatRoute } from "./routes/achat/deleteAchat";
-import { getAchatsRoute } from "./routes/achat/getAchats";
+import { createTransactionRoute } from "./routes/transaction/createTransaction";
+import { deleteTransactionRoute } from "./routes/transaction/deleteTransaction";
+import { getTransactionsRoute } from "./routes/transaction/getTransactions";
 import {Actions} from "Shared/RouteType";
 
 /**
@@ -14,9 +14,9 @@ import {Actions} from "Shared/RouteType";
 const routes = {
    [Actions.map.authAction]: authRoute,
    [Actions.map.getReferentielAction]: getReferentielRoute,
-   [Actions.map.getAchatsAction]: getAchatsRoute,
-   [Actions.map.createAchatAction]: createAchatRoute,
-   [Actions.map.deleteAchatAction]: deleteAchatRoute,
+   [Actions.map.getTransactionsAction]: getTransactionsRoute,
+   [Actions.map.createTransactionAction]: createTransactionRoute,
+   [Actions.map.deleteTransactionAction]: deleteTransactionRoute,
 } satisfies PostRouteRegistry<Actions.Type>;
 
 /**

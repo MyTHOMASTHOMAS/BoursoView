@@ -5,7 +5,7 @@ export const authAction = "auth";
 // Action pour recuperer la liste des referentiels
 export const getReferentielAction = "getReferentiel";
 
-// Actions pour la gestion des achats
-export const getAchatsAction = "getAchats";
-export const createAchatAction = "createAchat";
-export const deleteAchatAction = "deleteAchat";
+// Actions pour la gestion des transactions
+export const getTransactionsAction = "getTransactions";
+export const createTransactionAction = "createTransaction";
+export const deleteTransactionAction = "deleteTransaction";
