@@ -17,6 +17,6 @@ export default {
         }
 
         // TODO: typer l'ORM pour que getRepository("transaction").getMany() retourne TransactionItem[]
-        return transactionRepository.getMany(filters) as TransactionItem[];
+        return transactionRepository.getMany(filters, {direction: "desc"}) as TransactionItem[];
     }
 };
