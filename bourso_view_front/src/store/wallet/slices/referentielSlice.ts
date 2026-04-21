@@ -10,6 +10,7 @@ export const createReferentielSlice: StateCreator<ReferentielSlice, [], [], Refe
 
 export type UseReferentielResult = {
     referentiels: RT.ReferentielItem[]
+    referentielIds: string[]
     referentielsLoading: boolean
     referentielsError: string | null
     refetchReferentiels: () => Promise<unknown>
@@ -31,8 +32,12 @@ export const useReferentiel = (): UseReferentielResult => {
         { enabled: Boolean(token) }
     )
 
+    const referentiels = query.data?.success === true ? query.data.data.referentiels : []
+    const referentielIds = [...new Set(referentiels.map((item) => item.id).filter((id) => typeof id === 'string' && id.length > 0))]
+
     return {
-        referentiels: query.data?.success === true ? query.data.data.referentiels : [],
+        referentiels,
+        referentielIds,
         referentielsLoading: query.isLoading || query.isFetching,
         referentielsError:
             query.data?.success === false

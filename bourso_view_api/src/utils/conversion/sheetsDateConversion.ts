@@ -47,3 +47,37 @@ export const formatGoogleSerial = (serial: number): string => {
         timeStyle: 'short'
     }).format(date);
 };
+
+/**
+ * Convertit une date (chaîne, nombre ou objet Date) en un objet formaté
+ * compréhensible par le SheetUpdateService pour Google Sheets.
+ * @param dateInput - La date à convertir.
+ * @param pattern - (Optionnel) Le masque d'affichage. Par défaut: "dd/MM/yyyy HH:mm:ss"
+ * @returns Un objet { value, format } ou undefined si l'entrée est vide/invalide.
+ */
+export function dateToGoogleSheetFormat(
+    dateInput: string | number | Date | null | undefined,
+    pattern: string = "dd/MM/yyyy HH:mm:ss"
+) {
+    // 1. Gérer les cas vides
+    if (!dateInput) return undefined;
+
+    // 2. S'assurer d'avoir un objet Date valide
+    const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+    if (isNaN(date.getTime())) return undefined;
+
+    // 3. Retourner la structure reconnue par parseCellInput
+    return {
+        value: dateToGoogleSerial(date), // Appel de votre fonction de conversion mathématique
+        format: {
+            numberFormat: {
+                type: "DATE_TIME",
+                pattern: pattern
+            }
+        },
+        fieldList: [
+            "userEnteredValue",               // 1. On autorise l'écriture de la valeur
+            "userEnteredFormat.numberFormat"  // 2. On met à jour UNIQUEMENT le format du nombre
+        ]
+    };
+}
