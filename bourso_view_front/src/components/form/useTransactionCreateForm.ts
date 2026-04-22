@@ -20,37 +20,23 @@ type UseTransactionCreateFormOptions = {
 }
 
 function validateWithSharedValidator(body: CT.CreateTransactionAction): { valid: boolean; message?: string } {
-    const validator = V.createTransactionAction as any
+    const result = V.createTransactionAction.validate(body)
 
-    try {
-        if (typeof validator?.isValid === 'function') {
-            const valid = Boolean(validator.isValid(body))
-            return { valid, message: valid ? undefined : 'Validation du formulaire échouée.' }
-        }
-
-        if (typeof validator?.validate === 'function') {
-            const result = validator.validate(body)
-
-            if (typeof result === 'boolean') {
-                return { valid: result, message: result ? undefined : 'Validation du formulaire échouée.' }
-            }
-
-            if (result && typeof result === 'object') {
-                if (typeof result.success === 'boolean') {
-                    return { valid: result.success, message: result.success ? undefined : (result.error ?? 'Validation du formulaire échouée.') }
-                }
-                if (typeof result.valid === 'boolean') {
-                    return { valid: result.valid, message: result.valid ? undefined : (result.error ?? 'Validation du formulaire échouée.') }
-                }
-            }
-        }
-
+    if (result.isValid) {
         return { valid: true }
-    } catch (error) {
-        return {
-            valid: false,
-            message: error instanceof Error ? error.message : 'Validation du formulaire échouée.'
-        }
+    }
+
+    const firstError = result.errors?.[0]
+    if (!firstError) {
+        return { valid: false, message: 'Validation du formulaire échouée.' }
+    }
+
+    const details = [firstError.id, firstError.key].filter(Boolean).join(' / ')
+    return {
+        valid: false,
+        message: details
+            ? `Validation du formulaire échouée (${details}).`
+            : 'Validation du formulaire échouée.'
     }
 }
 
