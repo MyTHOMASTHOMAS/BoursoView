@@ -16,3 +16,17 @@ export type ReferentielItem = {
 export type GetReferentielAction = {
     referentiels: ReferentielItem[];
 };
+
+/**
+ * Type de reponse pour la route createReferentiel.
+ */
+export type CreateReferentielAction = {
+    createdCount: number;
+};
+
+/**
+ * Type de reponse pour la route deleteReferentiel.
+ */
+export type DeleteReferentielAction = {
+    deleted: boolean;
+};

@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useAppStore } from '../../useAppStore'
 import { api } from '../../../api/api'
 import type { ResponseType as RT } from 'Shared/RouteType'
@@ -14,6 +14,7 @@ export type UseReferentielResult = {
     referentielsLoading: boolean
     referentielsError: string | null
     refetchReferentiels: () => Promise<unknown>
+    invalidateReferentielsCache: () => Promise<unknown>
 }
 
 /**
@@ -32,6 +33,10 @@ export const useReferentiel = (): UseReferentielResult => {
         { enabled: Boolean(token) }
     )
 
+    const invalidateReferentielsCache = useCallback(() => {
+        return api.referentiel.invalidateQuery.post()
+    }, [])
+
     const referentiels = query.data?.success === true ? query.data.data.referentiels : []
     const referentielIds = [...new Set(referentiels.map((item) => item.id).filter((id) => typeof id === 'string' && id.length > 0))]
 
@@ -45,6 +50,7 @@ export const useReferentiel = (): UseReferentielResult => {
                 : query.error instanceof Error
                     ? query.error.message
                     : null,
-        refetchReferentiels: query.refetch
+        refetchReferentiels: query.refetch,
+        invalidateReferentielsCache
     }
 }

@@ -1,8 +1,8 @@
 import type { FormEvent } from 'react'
 import { ModalFormView } from '../../ModalFormView.tsx'
 
-type TransactionDeleteFormViewProps = {
-    transactionId?: string
+type ReferentielDeleteFormViewProps = {
+    referentielId?: string
     line: number
     errorMessage: string | null
     isSubmitting: boolean
@@ -10,17 +10,17 @@ type TransactionDeleteFormViewProps = {
     onCancel?: () => void
 }
 
-export function TransactionDeleteFormView({
-    transactionId,
+export function ReferentielDeleteFormView({
+    referentielId,
     line,
     errorMessage,
     isSubmitting,
     onSubmit,
     onCancel
-}: TransactionDeleteFormViewProps) {
+}: ReferentielDeleteFormViewProps) {
     return (
         <ModalFormView
-            title={`Confirmer la suppression de la transaction${transactionId ? ` ${transactionId}` : ''} ?`}
+            title={`Confirmer la suppression du referentiel${referentielId ? ` ${referentielId}` : ''} ?`}
             details={`Ligne concernée: ${line}`}
             errorMessage={errorMessage}
             isSubmitting={isSubmitting}

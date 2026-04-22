@@ -4,7 +4,14 @@
  */
 export { health, type HealthMethodsConfig } from './health'
 export { auth, type AuthMethodsConfig } from './auth'
-export { referentiel, type ReferentielMethodsConfig } from './referentiel'
+export {
+    referentiel,
+    createReferentiel,
+    deleteReferentiel,
+    type ReferentielMethodsConfig,
+    type CreateReferentielMethodsConfig,
+    type DeleteReferentielMethodsConfig
+} from './referentiel'
 export {
     getTransactions,
     createTransaction,

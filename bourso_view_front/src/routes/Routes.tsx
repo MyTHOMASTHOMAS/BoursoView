@@ -19,7 +19,7 @@ import { RouteBuilder, LinkBuilder } from 'MypkgReact/RouterBuilder/RouteBuilder
 import type { RouteObject } from 'react-router-dom'
 import MainLayout from '../layouts/MainLayout'
 import Dashboard from '../pages/Dashboard'
-import Indices from '../pages/Indices'
+import { Indices } from '../pages/indices'
 import { Transactions } from '../pages/transactions'
 import Settings from '../pages/Settings'
 import NotFound from '../pages/NotFound'

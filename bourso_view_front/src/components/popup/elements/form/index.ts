@@ -1,2 +1,4 @@
 export { TransactionCreateFormPopupElement } from './TransactionCreateFormPopupElement'
 export { TransactionDeleteFormPopupElement } from './TransactionDeleteFormPopupElement'
+export { ReferentielCreateFormPopupElement } from './ReferentielCreateFormPopupElement'
+export { ReferentielDeleteFormPopupElement } from './ReferentielDeleteFormPopupElement'

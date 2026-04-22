@@ -36,3 +36,33 @@ export const referentiel: ReferentielMethodsConfig = {
         retry: 3,
     }
 }
+
+export type CreateReferentielMethodsConfig = ApiEndpointConfig<
+    ContextType.CreateReferentielAction,
+    ResponseType.CreateReferentielAction
+>
+
+export const createReferentiel: CreateReferentielMethodsConfig = {
+    key: 'createReferentiel',
+    path: '',
+    endpointsOptions: {
+        post: {
+            defaultQueryParams: { action: Actions.map.createReferentielAction }
+        },
+    },
+}
+
+export type DeleteReferentielMethodsConfig = ApiEndpointConfig<
+    ContextType.DeleteReferentielAction,
+    ResponseType.DeleteReferentielAction
+>
+
+export const deleteReferentiel: DeleteReferentielMethodsConfig = {
+    key: 'deleteReferentiel',
+    path: '',
+    endpointsOptions: {
+        post: {
+            defaultQueryParams: { action: Actions.map.deleteReferentielAction }
+        },
+    },
+}
