@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
 import { useTransactions, useAppStore } from '../../store'
 import type { ResponseType as RT } from 'Shared/RouteType'
 
@@ -9,7 +8,6 @@ export function useTransactionsPage() {
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
     const [selectedTransaction, setSelectedTransaction] = useState<RT.TransactionItem | null>(null)
     const pageSize = 5
-    const queryClient = useQueryClient()
     const token = useAppStore((state) => state.token)
 
     const paginationOptions = useMemo(
@@ -24,18 +22,11 @@ export function useTransactionsPage() {
         transactions,
         transactionsLoading,
         transactionsError,
-        refetchTransactions
+        refetchTransactions,
+        invalidateTransactionsCache
     } = useTransactions(paginationOptions)
 
     const hasNextPage = transactions.length === pageSize
-
-    const invalidateTransactionsCache = useCallback(() => {
-        return queryClient.invalidateQueries({
-            predicate: (query) =>
-                Array.isArray(query.queryKey) &&
-                query.queryKey.some((key) => key === 'getTransactions')
-        })
-    }, [queryClient])
 
     const openCreatePopup = useCallback(() => {
         setIsCreatePopupOpen(true)

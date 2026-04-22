@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useAppStore } from '../../useAppStore'
 import { api } from '../../../api/api'
 import type { ResponseType as RT } from 'Shared/RouteType'
@@ -18,6 +18,7 @@ export type UseTransactionsResult = {
     transactionsLoading: boolean
     transactionsError: string | null
     refetchTransactions: () => Promise<unknown>
+    invalidateTransactionsCache: () => Promise<unknown>
 }
 
 /**
@@ -43,6 +44,10 @@ export const useTransactions = (options: UseTransactionsOptions = {}): UseTransa
         { enabled: Boolean(token) }
     )
 
+    const invalidateTransactionsCache = useCallback(() => {
+        return api.getTransactions.invalidateQuery.post()
+    }, [])
+
     return {
         transactions: query.data?.success === true ? query.data.data.transactions : [],
         transactionsLoading: query.isLoading || query.isFetching,
@@ -52,6 +57,7 @@ export const useTransactions = (options: UseTransactionsOptions = {}): UseTransa
                 : query.error instanceof Error
                     ? query.error.message
                     : null,
-        refetchTransactions: query.refetch
+        refetchTransactions: query.refetch,
+        invalidateTransactionsCache
     }
 }
