@@ -1,5 +1,5 @@
-import { TransactionCreateFormView } from './TransactionCreateFormView'
-import { useTransactionCreateForm, type CreateTransactionFormPayload } from './useTransactionCreateForm'
+import { TransactionCreateFormView } from './TransactionCreateFormView.tsx'
+import { useTransactionCreateForm, type CreateTransactionFormPayload } from './useTransactionCreateForm.ts'
 
 type TransactionCreateFormContentProps = {
     onCreated?: () => void

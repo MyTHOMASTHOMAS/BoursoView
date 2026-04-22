@@ -1,4 +1,4 @@
-import { TransactionCreateFormContent } from '../../../form'
+import { TransactionCreateFormContent } from '../../../form/transaction/create'
 import { AbstractPopupContent, type PopupContentBaseProps } from '../../AbstractPopupContent'
 
 type TransactionCreateFormPopupElementProps = PopupContentBaseProps

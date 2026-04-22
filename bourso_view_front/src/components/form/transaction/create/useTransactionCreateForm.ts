@@ -1,8 +1,8 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { type ContextType as CT, Validator as V } from 'Shared/RouteType'
-import { api } from '../../api/api'
-import { useAppStore } from '../../store/useAppStore'
-import { useReferentiel } from '../../store/wallet/slices/referentielSlice'
+import { api } from '../../../../api/api.ts'
+import { useAppStore } from '../../../../store/useAppStore.ts'
+import { useReferentiel } from '../../../../store/wallet/slices/referentielSlice.ts'
 
 export type CreateTransactionFormPayload = Omit<CT.CreateTransactionAction, 'authToken'>
 

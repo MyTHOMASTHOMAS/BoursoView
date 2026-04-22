@@ -1,5 +1,5 @@
 import type { ChangeEvent, FormEvent } from 'react'
-import type { TransactionCreateFormState } from './useTransactionCreateForm'
+import type { TransactionCreateFormState } from './useTransactionCreateForm.ts'
 
 type TransactionCreateFormViewProps = {
     form: TransactionCreateFormState
