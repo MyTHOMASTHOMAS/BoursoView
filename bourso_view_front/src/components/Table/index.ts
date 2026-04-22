@@ -1,4 +1,6 @@
 export { Table } from './Table'
 export { PaginatedTable } from './PaginatedTable'
+export { TableActionsMenu } from './TableActionsMenu'
 export { TableHeader } from './TableHeader'
 export type { TableColumn } from './TableHeader'
+export type { TableActionOption } from './TableActionsMenu'
