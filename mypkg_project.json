@@ -14,7 +14,7 @@
                 },
                 "SheetsOrm": {
                     "path": "mypkg_packages_apps_script/SheetsOrm",
-                    "version": "v1.X"
+                    "version": "v2.X"
                 }
             }
         },

@@ -12,6 +12,6 @@ export default {
         }
 
         // TODO: typer l'ORM pour que getRepository("referentiel").getMany() retourne
-        return referentielRepository.getMany({ lastRow }) as ReferentielItem[]
+        return referentielRepository.getMany() as ReferentielItem[]
     }
 };

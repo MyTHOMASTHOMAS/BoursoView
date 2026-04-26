@@ -1,13 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useAppStore, useReferentiel } from '../../store'
 import type { ResponseType as RT } from 'Shared/RouteType'
 
 export function useIndicesPage() {
-    const [page, setPage] = useState(1)
     const [isCreatePopupOpen, setIsCreatePopupOpen] = useState(false)
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
     const [selectedReferentiel, setSelectedReferentiel] = useState<RT.ReferentielItem | null>(null)
-    const pageSize = 5
     const token = useAppStore((state) => state.token)
 
     const {
@@ -17,21 +15,6 @@ export function useIndicesPage() {
         refetchReferentiels,
         invalidateReferentielsCache
     } = useReferentiel()
-
-    const paginatedReferentiels = useMemo(() => {
-        const start = (page - 1) * pageSize
-        const end = start + pageSize
-        return referentiels.slice(start, end)
-    }, [page, pageSize, referentiels])
-
-    const hasNextPage = page * pageSize < referentiels.length
-
-    useEffect(() => {
-        const maxPage = Math.max(1, Math.ceil(referentiels.length / pageSize))
-        if (page > maxPage) {
-            setPage(maxPage)
-        }
-    }, [page, pageSize, referentiels.length])
 
     const openCreatePopup = useCallback(() => {
         setIsCreatePopupOpen(true)
@@ -57,7 +40,6 @@ export function useIndicesPage() {
 
     const handleCreateAction = useCallback((action: string) => {
         if (action !== 'created') return
-        setPage(1)
         void invalidateReferentielsCache().then(() => refetchReferentiels())
     }, [invalidateReferentielsCache, refetchReferentiels])
 
@@ -69,16 +51,12 @@ export function useIndicesPage() {
 
     return {
         token,
-        page,
-        pageSize,
-        referentiels: paginatedReferentiels,
+        referentiels,
         referentielsLoading,
         referentielsError,
-        hasNextPage,
         isCreatePopupOpen,
         isDeletePopupOpen,
         selectedReferentiel,
-        setPage,
         openCreatePopup,
         closeCreatePopup,
         openDeletePopup,

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { PaginatedTable, TableActionsMenu, type TableColumn } from '../../components/Table'
+import { Table, TableActionsMenu, type TableColumn } from '../../components/Table'
 import {
     PopupWindow,
     ReferentielCreateFormPopupElement,
@@ -12,16 +12,12 @@ type IndicesPageViewProps = ReturnType<typeof useIndicesPage>
 
 export function IndicesPageView({
     token,
-    page,
-    pageSize,
     referentiels,
     referentielsLoading,
     referentielsError,
-    hasNextPage,
     isCreatePopupOpen,
     isDeletePopupOpen,
     selectedReferentiel,
-    setPage,
     openCreatePopup,
     closeCreatePopup,
     openDeletePopup,
@@ -103,14 +99,10 @@ export function IndicesPageView({
                 </button>
             </div>
 
-            <PaginatedTable
+            <Table
                 columns={columns}
                 data={referentiels}
-                page={page}
-                pageSize={pageSize}
-                hasNextPage={hasNextPage}
-                isLoading={referentielsLoading}
-                onPageChange={setPage}
+                onLoad={referentielsLoading}
                 loadingMessage="Chargement des referentiels..."
                 emptyMessage="Aucun referentiel disponible."
             />
