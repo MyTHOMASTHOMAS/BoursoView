@@ -1,5 +1,6 @@
 import { createProcessRouter, type PostRouteRegistry } from "MypkgAppsScript/ProcessRouter";
 import { authRoute } from "./routes/auth";
+import { getHistoryRoute } from "./routes/history/getHistory";
 import { createReferentielRoute } from "./routes/referentiel/createReferentiel";
 import { deleteReferentielRoute } from "./routes/referentiel/deleteReferentiel";
 import { getReferentielRoute } from "./routes/referentiel/getReferentiel";
@@ -16,6 +17,7 @@ import {Actions} from "Shared/RouteType";
 const routes = {
    [Actions.map.authAction]: authRoute,
    [Actions.map.getReferentielAction]: getReferentielRoute,
+   [Actions.map.getHistoryAction]: getHistoryRoute,
    [Actions.map.createReferentielAction]: createReferentielRoute,
    [Actions.map.deleteReferentielAction]: deleteReferentielRoute,
    [Actions.map.getTransactionsAction]: getTransactionsRoute,

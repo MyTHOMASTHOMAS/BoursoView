@@ -4,6 +4,7 @@ export const authAction = "auth";
 
 // Action pour recuperer la liste des referentiels
 export const getReferentielAction = "getReferentiel";
+export const getHistoryAction = "getHistory";
 export const createReferentielAction = "createReferentiel";
 export const deleteReferentielAction = "deleteReferentiel";
 

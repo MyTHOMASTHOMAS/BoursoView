@@ -12,6 +12,7 @@ import { createAuthSuite } from "./test/auth";
 import { createReferentielSuite } from "./test/referentiel";
 import { healthSuite } from "./test/health";
 import { createTransactionSuite } from "./test/transaction";
+import { createHistorySuite } from "./test/history";
 
 /**
  * Exécute tous les tests via le runner GAS
@@ -24,6 +25,7 @@ export function runAllTests(): void {
     runSuiteGas(createAuthSuite(AUTH_TOKEN!));
     runSuiteGas(createReferentielSuite(AUTH_TOKEN!));
     runSuiteGas(createTransactionSuite(AUTH_TOKEN!));
+    runSuiteGas(createHistorySuite(AUTH_TOKEN!));
 
     Logger.log("============================================");
     Logger.log("✅ Tous les tests terminés");
