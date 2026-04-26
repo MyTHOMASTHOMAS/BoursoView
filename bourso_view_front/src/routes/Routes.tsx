@@ -26,11 +26,11 @@ import NotFound from '../pages/NotFound'
 import { AppInitializer } from '../components/AppInitializer'
 
 // ─── Routes individuelles ────────────────────────────────
-const DashboardRoute: RouteObject = { path: '/', element: <Dashboard />, index: true }
-const IndicesRoute: RouteObject = { path: '/indices', element: <Indices /> }
+const DashboardRoute: RouteObject    = { path: '/', element: <Dashboard />, index: true }
+const IndicesRoute: RouteObject      = { path: '/indices', element: <Indices /> }
 const TransactionsRoute: RouteObject = { path: '/transactions', element: <Transactions /> }
-const SettingsRoute: RouteObject = { path: '/settings', element: <Settings /> }
-const NoRoute: RouteObject = { path: '*', element: <NotFound /> }
+const SettingsRoute: RouteObject     = { path: '/settings', element: <Settings /> }
+const NoRoute: RouteObject           = { path: '*', element: <NotFound /> }
 
 // ─── Route racine d'initialisation ──────────────────────────
 const InitRoute: RouteObject = {

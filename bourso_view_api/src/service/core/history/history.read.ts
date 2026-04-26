@@ -1,4 +1,5 @@
 import type { ContextType as CT, ResponseType as RT } from "Shared/RouteType";
+import { createMiddlewareError } from "MypkgAppsScript/ProcessRouter";
 import { numberToLetter } from "MypkgAppsScript/SheetsService";
 import { sheetService } from "../../sheet";
 import {
@@ -56,6 +57,24 @@ export default {
                 const rows = futures[ticker]?.get() ?? [];
                 data[ticker] = transformFinanceRows(rows);
             });
+
+            const emptyTickers = indices.filter((ticker) => data[ticker].date.length === 0);
+            if (emptyTickers.length > 0) {
+                const emptyRequests = emptyTickers.map((ticker) => ({
+                    ticker,
+                    googlefinance_formula: buildGoogleFinanceHistoryFormula(
+                        ticker,
+                        payload.start_date,
+                        payload.end_date,
+                        period
+                    )
+                }));
+
+                throw createMiddlewareError("Aucune donnée historique trouvée pour un ou plusieurs indices", {
+                    code: 404,
+                    message: `Requêtes GOOGLEFINANCE sans données: ${JSON.stringify(emptyRequests)}`
+                });
+            }
 
             return data;
         } finally {

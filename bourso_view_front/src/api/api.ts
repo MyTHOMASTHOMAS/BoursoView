@@ -16,7 +16,8 @@ import {
     deleteReferentiel,
     getTransactions,
     createTransaction,
-    deleteTransaction
+    deleteTransaction,
+    financeHistory,
 } from './routes'
 
 // 1. Récupère l'URL
@@ -42,4 +43,5 @@ export const api = Object.assign(createApi(baseUrl, {
     getTransactions,
     createTransaction,
     deleteTransaction,
+    financeHistory,
 }), { client: apiClient });

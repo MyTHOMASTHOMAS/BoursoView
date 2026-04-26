@@ -6,5 +6,6 @@ export type WalletStore = ReferentielSlice & TransactionSlice
 
 export const useWalletStore = create<WalletStore>()((...args) => ({
     ...createReferentielSlice(...args),
-    ...createTransactionSlice(...args)
+    ...createTransactionSlice(...args),
 }))
+
