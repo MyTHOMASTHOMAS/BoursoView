@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import {
     CartesianGrid,
     Line,
@@ -7,6 +8,7 @@ import {
     XAxis,
     YAxis
 } from 'recharts'
+import { Loader } from '../../loading'
 import { DURATION_OPTIONS, type BasicChartPoint, type DurationOption } from './useBasicCharts'
 
 type BasicChartsViewProps = {
@@ -46,29 +48,48 @@ export function BasicChartsView({
     onApplyCustomRange,
     onDurationChange
 }: BasicChartsViewProps) {
-    if (loading) {
-        return (
-            <div className="rounded-xl border border-subtle bg-slate-900 p-4">
-                <p className="text-muted">Chargement de l'historique...</p>
-            </div>
-        )
+    const presetDurations = DURATION_OPTIONS.filter((option) => option.value !== 'CUSTOM')
+    const isCustomSelected = selectedDuration === 'CUSTOM'
+    const durationSectionRef = useRef<HTMLDivElement | null>(null)
+    const durationRailRef = useRef<HTMLDivElement | null>(null)
+    const chartSectionRef = useRef<HTMLDivElement | null>(null)
+
+    const scrollToChart = () => {
+        chartSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
-    if (error) {
-        return (
-            <div className="rounded-xl border border-red-400/30 bg-slate-900 p-4">
-                <p className="text-error">Erreur: {error}</p>
-            </div>
-        )
+    const handleDurationChange = (nextDuration: DurationOption) => {
+        onDurationChange(nextDuration)
+        window.requestAnimationFrame(() => {
+            scrollToChart()
+        })
     }
 
-    if (!hasData) {
-        return (
-            <div className="rounded-xl border border-subtle bg-slate-900 p-4">
-                <p className="text-muted">Aucune donnée disponible pour cette plage.</p>
-            </div>
-        )
+    const handleApplyCustomRange = () => {
+        onApplyCustomRange()
+        window.requestAnimationFrame(() => {
+            scrollToChart()
+        })
     }
+
+    useEffect(() => {
+        const timer = window.setTimeout(() => {
+            durationSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 120)
+
+        return () => window.clearTimeout(timer)
+    }, [])
+
+    useEffect(() => {
+        const activeDurationButton = durationRailRef.current?.querySelector<HTMLButtonElement>('[data-active="true"]')
+        if (!activeDurationButton) return
+
+        activeDurationButton.scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center',
+            block: 'nearest'
+        })
+    }, [selectedDuration])
 
     return (
         <div className="space-y-3 rounded-xl border border-subtle bg-slate-900 p-4">
@@ -77,21 +98,51 @@ export function BasicChartsView({
                 <p className="text-muted text-small">Cours de clôture journalier ({startDate} → {endDate})</p>
             </div>
 
-            <div className="space-y-2">
+            <div ref={durationSectionRef} className="space-y-2">
                 <p className="text-muted text-small">Durée</p>
-                <select
-                    value={selectedDuration}
-                    onChange={(event) => onDurationChange(event.target.value as DurationOption)}
-                    className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-primary"
+                <div className="rounded-xl border border-slate-700/70 bg-slate-950/80 p-2">
+                    <div ref={durationRailRef} className="no-scrollbar -mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1">
+                        {presetDurations.map((option) => {
+                            const isActive = selectedDuration === option.value
+                            return (
+                                <button
+                                    key={option.value}
+                                    type="button"
+                                    onClick={() => handleDurationChange(option.value)}
+                                    data-active={isActive}
+                                    className={`
+                                        min-w-[82px] shrink-0 snap-start rounded-full px-3 py-2 text-small font-semibold transition-all cursor-pointer
+                                        border text-center
+                                        ${isActive
+                                            ? 'border-sky-300 bg-sky-500/25 text-sky-100 shadow-[0_6px_18px_rgba(14,165,233,0.25)]'
+                                            : 'border-slate-700 bg-slate-900/90 text-slate-300 hover:border-slate-500 hover:text-slate-100'
+                                        }
+                                    `}
+                                    aria-pressed={isActive}
+                                >
+                                    {option.label}
+                                </button>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    onClick={() => handleDurationChange('CUSTOM')}
+                    className={`
+                        w-full rounded-lg border px-3 py-2 text-small font-medium transition-colors cursor-pointer
+                        ${isCustomSelected
+                            ? 'border-emerald-300 bg-emerald-500/20 text-emerald-100'
+                            : 'border-slate-700 bg-slate-950 text-slate-300 hover:border-slate-500 hover:text-slate-100'
+                        }
+                    `}
                 >
-                    {DURATION_OPTIONS.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
-                        </option>
-                    ))}
-                </select>
-                {selectedDuration === 'CUSTOM' && (
-                    <div className="space-y-2">
+                    {isCustomSelected ? 'Plage personnalisée active' : 'Utiliser une plage personnalisée'}
+                </button>
+
+                {isCustomSelected && (
+                    <div className="space-y-3 rounded-xl border border-slate-700/70 bg-slate-950/70 p-3">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                             <label className="space-y-1">
                                 <span className="text-muted text-small">Date de début</span>
@@ -99,7 +150,7 @@ export function BasicChartsView({
                                     type="date"
                                     value={customStartDate}
                                     onChange={(event) => onCustomStartDateChange(event.target.value)}
-                                    className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-primary"
+                                    className="date-input-purple w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-primary"
                                 />
                             </label>
                             <label className="space-y-1">
@@ -108,23 +159,18 @@ export function BasicChartsView({
                                     type="date"
                                     value={customEndDate}
                                     onChange={(event) => onCustomEndDateChange(event.target.value)}
-                                    className="w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-primary"
+                                    className="date-input-purple w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-primary"
                                 />
                             </label>
                         </div>
                         <button
                             type="button"
-                            onClick={onApplyCustomRange}
+                            onClick={handleApplyCustomRange}
                             disabled={!customStartDate || !customEndDate}
-                            className="rounded-lg border border-sky-400 bg-sky-500/15 px-3 py-2 text-sky-200 text-small transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                            className="w-full rounded-lg border border-sky-400 bg-sky-500/20 px-3 py-2.5 text-sky-100 text-small font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer md:w-auto"
                         >
                             Valider
                         </button>
-                        {duration !== 'CUSTOM' && (
-                            <p className="text-muted text-small">
-                                La plage personnalisée sera appliquée après validation.
-                            </p>
-                        )}
                     </div>
                 )}
                 {duration === 'CUSTOM' && !isCustomRangeReady && (
@@ -134,43 +180,57 @@ export function BasicChartsView({
                 )}
             </div>
 
-            <div className="h-80 w-full rounded-lg border border-slate-700/70 bg-slate-950 p-2">
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData} margin={{ top: 8, right: 16, left: 0, bottom: 8 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
-                        <XAxis
-                            dataKey="date"
-                            tick={{ fill: '#cbd5e1', fontSize: 11 }}
-                            axisLine={{ stroke: 'rgba(148,163,184,0.35)' }}
-                            tickLine={{ stroke: 'rgba(148,163,184,0.35)' }}
-                            minTickGap={24}
-                        />
-                        <YAxis
-                            tick={{ fill: '#cbd5e1', fontSize: 11 }}
-                            axisLine={{ stroke: 'rgba(148,163,184,0.35)' }}
-                            tickLine={{ stroke: 'rgba(148,163,184,0.35)' }}
-                            domain={['auto', 'auto']}
-                        />
-                        <Tooltip
-                            contentStyle={{
-                                backgroundColor: '#0b1220',
-                                border: '1px solid rgba(148, 163, 184, 0.35)',
-                                borderRadius: 8
-                            }}
-                            labelStyle={{ color: '#e2e8f0' }}
-                            itemStyle={{ color: '#7dd3fc' }}
-                        />
-                        <Line
-                            type="monotone"
-                            dataKey="close"
-                            stroke="#38bdf8"
-                            strokeWidth={2}
-                            dot={false}
-                            activeDot={{ r: 4 }}
-                            connectNulls
-                        />
-                    </LineChart>
-                </ResponsiveContainer>
+            <div ref={chartSectionRef} className="h-80 w-full rounded-lg border border-slate-700/70 bg-slate-950 p-0">
+                {loading ? (
+                    <Loader message="Mise à jour de la courbe..." />
+                ) : error ? (
+                    <div className="flex h-full w-full items-center justify-center px-4">
+                        <p className="text-error">Erreur: {error}</p>
+                    </div>
+                ) : !hasData ? (
+                    <div className="flex h-full w-full items-center justify-center px-4">
+                        <p className="text-muted">Aucune donnée disponible pour cette plage.</p>
+                    </div>
+                ) : (
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={chartData} margin={{ top: 0, right: 0, left: -25, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(148,163,184,0.18)" />
+                            <XAxis
+                                dataKey="date"
+                                tick={{ fill: '#cbd5e1', fontSize: 11 }}
+                                axisLine={{ stroke: 'rgba(148,163,184,0.35)' }}
+                                tickLine={{ stroke: 'rgba(148,163,184,0.35)' }}
+                                minTickGap={20}
+                                padding={{ left: 0, right: 0 }}
+                                interval="preserveStartEnd"
+                            />
+                            <YAxis
+                                tick={{ fill: '#cbd5e1', fontSize: 11 }}
+                                axisLine={{ stroke: 'rgba(148,163,184,0.35)' }}
+                                tickLine={{ stroke: 'rgba(148,163,184,0.35)' }}
+                                domain={['auto', 'auto']}
+                            />
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: '#0b1220',
+                                    border: '1px solid rgba(148, 163, 184, 0.35)',
+                                    borderRadius: 8
+                                }}
+                                labelStyle={{ color: '#e2e8f0' }}
+                                itemStyle={{ color: '#7dd3fc' }}
+                            />
+                            <Line
+                                type="monotone"
+                                dataKey="close"
+                                stroke="#38bdf8"
+                                strokeWidth={2}
+                                dot={false}
+                                activeDot={{ r: 4 }}
+                                connectNulls
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                )}
             </div>
         </div>
     )

@@ -54,25 +54,25 @@ export function PopupWindow<TContentProps extends PopupContentBaseProps>({
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm px-0 py-4 sm:p-4"
             onClick={handleBackdropClick}
             role="dialog"
             aria-modal="true"
             aria-label={title ?? 'Popup'}
         >
-            <div className="w-full max-w-2xl rounded-2xl surface-light border border-subtle shadow-card">
-                <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-subtle">
+            <div className="w-full max-w-2xl max-h-[calc(100vh-2rem)] overflow-auto">
+                <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-subtle surface-light">
                     <h2 className="text-heading-lg text-primary">{title ?? 'Popup'}</h2>
                     <button
                         onClick={onClose}
-                        className="btn-padding radius-btn border border-subtle text-primary hover:surface-hover transition-colors cursor-pointer"
+                        className="btn-padding radius-btn border border-white/30 bg-slate-800 text-white hover:bg-slate-700 transition-colors cursor-pointer"
                         aria-label="Fermer la popup"
                     >
                         Fermer
                     </button>
                 </div>
 
-                <div className="p-5">
+                <div>
                     <ContentComponent {...mergedProps} />
                 </div>
             </div>

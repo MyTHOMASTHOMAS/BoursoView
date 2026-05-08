@@ -13,3 +13,21 @@
     @apply min-h-screen;
   }
 }
+
+@layer utilities {
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .date-input-purple::-webkit-calendar-picker-indicator {
+    /* Approximation du --color-primary (#6366f1) du theme */
+    filter: invert(47%) sepia(80%) saturate(1550%) hue-rotate(214deg) brightness(102%) contrast(92%);
+    opacity: 1;
+    cursor: pointer;
+  }
+}
