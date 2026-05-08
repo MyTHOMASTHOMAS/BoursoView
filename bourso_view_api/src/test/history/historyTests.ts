@@ -19,10 +19,24 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken,
-                    indices: ["EPA:AI", "EPA:MC"],
-                    start_date: "2026-01-01",
-                    end_date: "2026-01-15",
-                    period: "DAILY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2026-01-01", end_date: "2026-01-15", period: "DAILY" },
+                        { ticker: "EPA:MC", start_date: "2026-01-01", end_date: "2026-01-15", period: "DAILY" }
+                    ]
+                },
+                assertions: [{ field: "success", expected: true }]
+            },
+            {
+                name: "Get history multi-segments même ticker",
+                description: "Retourne deux entrées distinctes pour le même ticker sur deux plages différentes — valide le format tableau vs ancien Record",
+                method: "POST",
+                action: GET_HISTORY_ACTION,
+                body: {
+                    authToken,
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2026-01-01", end_date: "2026-01-07", period: "DAILY" },
+                        { ticker: "EPA:AI", start_date: "2026-01-15", end_date: "2026-01-22", period: "DAILY" }
+                    ]
                 },
                 assertions: [{ field: "success", expected: true }]
             },
@@ -33,10 +47,9 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken,
-                    indices: ["EPA:AI"],
-                    start_date: "2026-01-01",
-                    end_date: "2026-03-31",
-                    period: "WEEKLY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2026-01-01", end_date: "2026-03-31", period: "WEEKLY" }
+                    ]
                 },
                 assertions: [{ field: "success", expected: true }]
             },
@@ -47,10 +60,9 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken,
-                    indices: ["EPA:AI"],
-                    start_date: "2024-01-01",
-                    end_date: "2024-12-31",
-                    period: "DAILY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2024-01-01", end_date: "2024-12-31", period: "DAILY" }
+                    ]
                 },
                 assertions: [{ field: "success", expected: true }]
             },
@@ -61,10 +73,9 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken,
-                    indices: ["EPA:MC"],
-                    start_date: "2019-01-01",
-                    end_date: "2024-12-31",
-                    period: "DAILY"
+                    indices: [
+                        { ticker: "EPA:MC", start_date: "2019-01-01", end_date: "2024-12-31", period: "DAILY" }
+                    ]
                 },
                 assertions: [{ field: "success", expected: true }]
             },
@@ -75,10 +86,12 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken,
-                    indices: ["EPA:AI", "EPA:MC", "EPA:SU", "EPA:OR"],
-                    start_date: "2022-01-01",
-                    end_date: "2024-12-31",
-                    period: "DAILY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2022-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:MC", start_date: "2022-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:SU", start_date: "2022-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:OR", start_date: "2022-01-01", end_date: "2024-12-31", period: "DAILY" }
+                    ]
                 },
                 assertions: [{ field: "success", expected: true }]
             },
@@ -89,10 +102,14 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken,
-                    indices: ["EPA:AI", "EPA:MC", "EPA:SU", "EPA:OR", "EPA:BN", "EPA:CAP"],
-                    start_date: "2016-01-01",
-                    end_date: "2024-12-31",
-                    period: "DAILY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2016-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:MC", start_date: "2016-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:SU", start_date: "2016-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:OR", start_date: "2016-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:BN", start_date: "2016-01-01", end_date: "2024-12-31", period: "DAILY" },
+                        { ticker: "EPA:CAP", start_date: "2016-01-01", end_date: "2024-12-31", period: "DAILY" }
+                    ]
                 },
                 assertions: [{ field: "success", expected: true }]
             },
@@ -103,10 +120,9 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken: "token-invalide-123",
-                    indices: ["EPA:AI"],
-                    start_date: "2026-01-01",
-                    end_date: "2026-01-15",
-                    period: "DAILY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2026-01-01", end_date: "2026-01-15", period: "DAILY" }
+                    ]
                 },
                 assertions: [
                     { field: "success", expected: false },
@@ -119,10 +135,9 @@ export function createHistorySuite(authToken: string): TestSuite {
                 method: "POST",
                 action: GET_HISTORY_ACTION,
                 body: {
-                    indices: ["EPA:AI"],
-                    start_date: "2026-01-01",
-                    end_date: "2026-01-15",
-                    period: "DAILY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2026-01-01", end_date: "2026-01-15", period: "DAILY" }
+                    ]
                 },
                 assertions: [
                     { field: "success", expected: false },
@@ -136,10 +151,9 @@ export function createHistorySuite(authToken: string): TestSuite {
                 action: GET_HISTORY_ACTION,
                 body: {
                     authToken,
-                    indices: ["EPA:AI"],
-                    start_date: "2026-01-01",
-                    end_date: "2026-01-15",
-                    period: "MONTHLY"
+                    indices: [
+                        { ticker: "EPA:AI", start_date: "2026-01-01", end_date: "2026-01-15", period: "MONTHLY" }
+                    ]
                 },
                 assertions: [
                     { field: "success", expected: false },

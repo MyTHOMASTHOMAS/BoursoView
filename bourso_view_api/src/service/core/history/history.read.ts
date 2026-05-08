@@ -13,24 +13,38 @@ import {
     transformFinanceRows
 } from "./history.utils";
 
-type HistoryPayload = Pick<CT.GetHistoryAction, "indices" | "start_date" | "end_date" | "period">;
+type HistoryPayload = Pick<CT.GetHistoryAction, "indices">;
+
+/**
+ * Clé composite `"ticker:start_date:end_date"` — identifie un segment de manière unique
+ * même si le même ticker apparaît plusieurs fois avec des plages différentes.
+ */
+type SegmentKey = string;
+
+type HistoryQueryItem = {
+    /** Clé composite unique pour ce segment — utilisée pour indexer `futures` sans collision. */
+    key: SegmentKey;
+    ticker: string;
+    start_date: string;
+    end_date: string;
+    period: CT.HistoryPeriod;
+};
 
 export default {
     get(payload: HistoryPayload): RT.GetHistoryAction {
-        const indices = sanitizeIndices(payload.indices);
-        if (indices.length === 0) return {};
-
-        const period = payload.period ?? "DAILY";
+        const requests = sanitizeIndices(payload.indices);
+        if (requests.length === 0) return [];
 
         try {
-            indices.forEach((ticker, index) => {
+            // ── Écriture des formules GOOGLEFINANCE (une colonne par segment) ─────
+            requests.forEach((request, index) => {
                 const colStart = (index * HISTORY_BLOCK_WIDTH) + 1;
                 const startCell = `${numberToLetter(colStart - 1)}1`;
                 const formula = buildGoogleFinanceHistoryFormula(
-                    ticker,
-                    payload.start_date,
-                    payload.end_date,
-                    period
+                    request.ticker,
+                    request.start_date,
+                    request.end_date,
+                    request.period
                 );
 
                 sheetService.update.queueUpdateCell(HISTORY_TEMP_SHEET, startCell, formula);
@@ -40,39 +54,49 @@ export default {
             SpreadsheetApp.flush();
             Utilities.sleep(HISTORY_CALC_WAIT_MS);
 
-            const futures: Record<string, ReturnType<typeof sheetService.read.queueGetValues<FinanceRow>>> = {};
+            // ── Lecture par clé composite pour éviter les collisions même-ticker ──
+            const futures: Record<SegmentKey, ReturnType<typeof sheetService.read.queueGetValues<FinanceRow>>> = {};
 
-            indices.forEach((ticker, index) => {
+            requests.forEach((request, index) => {
                 const startCol = numberToLetter(index * HISTORY_BLOCK_WIDTH);
                 const endCol = numberToLetter((index * HISTORY_BLOCK_WIDTH) + HISTORY_VALUE_COLUMNS - 1);
                 const rangeA1 = `${startCol}1:${endCol}${HISTORY_MAX_ROWS}`;
 
-                futures[ticker] = sheetService.read.queueGetValues<FinanceRow>(HISTORY_TEMP_SHEET, rangeA1);
+                futures[request.key] = sheetService.read.queueGetValues<FinanceRow>(HISTORY_TEMP_SHEET, rangeA1);
             });
 
             sheetService.read.flush();
 
-            const data: RT.GetHistoryAction = {};
-            indices.forEach((ticker) => {
-                const rows = futures[ticker]?.get() ?? [];
-                data[ticker] = transformFinanceRows(rows);
+            // ── Construction du tableau de réponse (ordre respecté) ───────────────
+            const data: RT.GetHistoryAction = requests.map((request) => {
+                const rows = futures[request.key]?.get() ?? [];
+                return {
+                    ticker: request.ticker,
+                    data: transformFinanceRows(rows),
+                };
             });
 
-            const emptyTickers = indices.filter((ticker) => data[ticker].date.length === 0);
-            if (emptyTickers.length > 0) {
-                const emptyRequests = emptyTickers.map((ticker) => ({
-                    ticker,
-                    googlefinance_formula: buildGoogleFinanceHistoryFormula(
-                        ticker,
-                        payload.start_date,
-                        payload.end_date,
-                        period
-                    )
-                }));
+            // ── Vérification des segments vides ───────────────────────────────────
+            const emptyEntries = data.filter((entry) => entry.data.date.length === 0);
+            if (emptyEntries.length > 0) {
+                const emptyDetails = emptyEntries.map((entry) => {
+                    const req = requests.find((r) => r.ticker === entry.ticker);
+                    return {
+                        ticker: entry.ticker,
+                        googlefinance_formula: req
+                            ? buildGoogleFinanceHistoryFormula(
+                                req.ticker,
+                                req.start_date,
+                                req.end_date,
+                                req.period
+                              )
+                            : "unknown"
+                    };
+                });
 
                 throw createMiddlewareError("Aucune donnée historique trouvée pour un ou plusieurs indices", {
                     code: 404,
-                    message: `Requêtes GOOGLEFINANCE sans données: ${JSON.stringify(emptyRequests)}`
+                    message: `Requêtes GOOGLEFINANCE sans données: ${JSON.stringify(emptyDetails)}`
                 });
             }
 
@@ -88,16 +112,33 @@ export default {
     }
 };
 
-function sanitizeIndices(indices: string[]): string[] {
-    const seen = new Set<string>();
-    const cleaned: string[] = [];
+/**
+ * Nettoie et déduplique les indices demandés.
+ *
+ * La clé de déduplication est **composite** (`ticker:start_date:end_date`) :
+ * deux segments du même ticker avec des plages différentes sont des entrées distinctes.
+ * Seule la combinaison `ticker + start + end` identique est supprimée comme doublon.
+ */
+function sanitizeIndices(indices: CT.GetHistoryAction["indices"]): HistoryQueryItem[] {
+    const seen = new Set<SegmentKey>();
+    const cleaned: HistoryQueryItem[] = [];
 
-    indices.forEach((index) => {
-        const value = index.trim();
-        if (!value) return;
-        if (seen.has(value)) return;
-        seen.add(value);
-        cleaned.push(value);
+    indices.forEach((item) => {
+        const tickerValue = item.ticker.trim();
+        if (!tickerValue) return;
+        if (!item?.start_date || !item?.end_date) return;
+
+        const compositeKey: SegmentKey = `${tickerValue}:${item.start_date}:${item.end_date}`;
+        if (seen.has(compositeKey)) return;
+
+        seen.add(compositeKey);
+        cleaned.push({
+            key: compositeKey,
+            ticker: tickerValue,
+            start_date: item.start_date,
+            end_date: item.end_date,
+            period: item.period ?? "DAILY"
+        });
     });
 
     return cleaned;

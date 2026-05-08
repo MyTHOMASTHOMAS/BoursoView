@@ -7,7 +7,7 @@
  * Quand FinanceHistoryService appelle setData.get() pour ce ticker,
  * ce composant se met à jour automatiquement.
  */
-import { api } from '../../api/api'
+import { api } from '../../../api/api'
 import type { ContextType } from 'Shared/RouteType'
 
 export type StockChartProps = {

@@ -7,6 +7,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+/** Charge une fois les modules de store (singleton session) au démarrage de l’app. */
+import './store'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(

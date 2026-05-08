@@ -11,13 +11,13 @@ import { ApiClient } from 'MypkgTypescript/ApiClient/ApiClient'
 import {
     health,
     auth,
+    history,
     referentiel,
     createReferentiel,
     deleteReferentiel,
     getTransactions,
     createTransaction,
     deleteTransaction,
-    financeHistory,
 } from './routes'
 
 // 1. Récupère l'URL
@@ -37,11 +37,11 @@ apiClient.setHeaders({
 export const api = Object.assign(createApi(baseUrl, {
     health,
     auth,
+    history,
     referentiel,
     createReferentiel,
     deleteReferentiel,
     getTransactions,
     createTransaction,
     deleteTransaction,
-    financeHistory,
 }), { client: apiClient });

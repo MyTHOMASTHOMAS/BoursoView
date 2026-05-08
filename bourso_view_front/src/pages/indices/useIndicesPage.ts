@@ -5,7 +5,9 @@ import type { ResponseType as RT } from 'Shared/RouteType'
 export function useIndicesPage() {
     const [isCreatePopupOpen, setIsCreatePopupOpen] = useState(false)
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
+    const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false)
     const [selectedReferentiel, setSelectedReferentiel] = useState<RT.ReferentielItem | null>(null)
+    const [selectedDetailsReferentiel, setSelectedDetailsReferentiel] = useState<RT.ReferentielItem | null>(null)
     const token = useAppStore((state) => state.token)
 
     const {
@@ -34,6 +36,16 @@ export function useIndicesPage() {
         setSelectedReferentiel(null)
     }, [])
 
+    const openDetailsPopup = useCallback((referentiel: RT.ReferentielItem) => {
+        setSelectedDetailsReferentiel(referentiel)
+        setIsDetailsPopupOpen(true)
+    }, [])
+
+    const closeDetailsPopup = useCallback(() => {
+        setIsDetailsPopupOpen(false)
+        setSelectedDetailsReferentiel(null)
+    }, [])
+
     const refreshReferentiels = useCallback(() => {
         void refetchReferentiels()
     }, [refetchReferentiels])
@@ -56,11 +68,15 @@ export function useIndicesPage() {
         referentielsError,
         isCreatePopupOpen,
         isDeletePopupOpen,
+        isDetailsPopupOpen,
         selectedReferentiel,
+        selectedDetailsReferentiel,
         openCreatePopup,
         closeCreatePopup,
         openDeletePopup,
         closeDeletePopup,
+        openDetailsPopup,
+        closeDetailsPopup,
         refreshReferentiels,
         handleCreateAction,
         handleDeleteAction

@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Table, TableActionsMenu, type TableColumn } from '../../components/Table'
 import {
     PopupWindow,
+    HistoryDetailsPopupElement,
     ReferentielCreateFormPopupElement,
     ReferentielDeleteFormPopupElement
 } from '../../components/popup'
@@ -17,11 +18,15 @@ export function IndicesPageView({
     referentielsError,
     isCreatePopupOpen,
     isDeletePopupOpen,
+    isDetailsPopupOpen,
     selectedReferentiel,
+    selectedDetailsReferentiel,
     openCreatePopup,
     closeCreatePopup,
     openDeletePopup,
     closeDeletePopup,
+    openDetailsPopup,
+    closeDetailsPopup,
     refreshReferentiels,
     handleCreateAction,
     handleDeleteAction
@@ -40,6 +45,11 @@ export function IndicesPageView({
                     buttonAriaLabel={`Actions pour le referentiel ${row.id}`}
                     options={[
                         {
+                            id: 'details',
+                            label: 'Details',
+                            onSelect: () => openDetailsPopup(row)
+                        },
+                        {
                             id: 'delete',
                             label: 'Supprimer',
                             danger: true,
@@ -49,7 +59,7 @@ export function IndicesPageView({
                 />
             )
         }
-    ], [openDeletePopup])
+    ], [openDeletePopup, openDetailsPopup])
 
     if (!token) {
         return (
@@ -125,6 +135,19 @@ export function IndicesPageView({
                     contentProps={{
                         line: selectedReferentiel._line,
                         referentielId: selectedReferentiel.id
+                    }}
+                />
+            )}
+
+            {token && selectedDetailsReferentiel && (
+                <PopupWindow
+                    isOpen={isDetailsPopupOpen}
+                    title={`Historique ${selectedDetailsReferentiel.id}`}
+                    onClose={closeDetailsPopup}
+                    ContentComponent={HistoryDetailsPopupElement}
+                    contentProps={{
+                        indice: selectedDetailsReferentiel.id,
+                        authToken: token
                     }}
                 />
             )}

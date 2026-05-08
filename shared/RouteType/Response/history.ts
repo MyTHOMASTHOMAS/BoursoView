@@ -11,6 +11,16 @@ export type TickerData = {
 };
 
 /**
- * Type de reponse pour la route getHistory.
+ * Entree de reponse pour un segment ticker + plage de dates.
+ * Chaque entree correspond a un element du tableau `indices` de la requete.
  */
-export type GetHistoryAction = Record<string, TickerData>;
+export type TickerHistoryEntry = {
+    ticker: string;
+    data: TickerData;
+};
+
+/**
+ * Type de reponse pour la route getHistory.
+ * Tableau ordonne de la meme facon que le tableau `indices` de la requete.
+ */
+export type GetHistoryAction = TickerHistoryEntry[];

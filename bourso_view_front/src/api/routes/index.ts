@@ -20,8 +20,4 @@ export {
     type CreateTransactionMethodsConfig,
     type DeleteTransactionMethodsConfig
 } from './transaction'
-export {
-    financeHistory,
-    type FinanceHistoryEndpointConfig,
-    type FinanceHistoryGetQuery,
-} from './financeHistory'
+export { history, type HistoryMethodsConfig } from './history'

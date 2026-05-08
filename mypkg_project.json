@@ -33,6 +33,14 @@
                     "version": "v1.X"
                 }
             }
+        },
+        "typescript": {
+            "package": {
+                "SequenceManager": {
+                    "path": "mypkg_packages_typescript/SequenceManager",
+                    "version": "v0.X"
+                }
+            }
         }
     }
 }

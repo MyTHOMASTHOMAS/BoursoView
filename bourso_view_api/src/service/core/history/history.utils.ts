@@ -7,7 +7,7 @@ export const HISTORY_VALUE_COLUMNS = 6;
 export const HISTORY_MAX_ROWS = 1000;
 export const HISTORY_CALC_WAIT_MS = 1500;
 
-type HistoryPeriod = NonNullable<CT.GetHistoryAction["period"]>;
+type HistoryPeriod = CT.HistoryPeriod;
 export type FinanceCell = string | number | boolean | Date | null | undefined;
 export type FinanceRow = FinanceCell[];
 
