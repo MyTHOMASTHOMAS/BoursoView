@@ -12,12 +12,14 @@ import { RouterProvider } from 'react-router-dom'
 import { AppProvider } from 'MypkgReact/AppProvider/AppProvider'
 import { ReactQueryProvider } from 'MypkgReact/ReactQuery/ReactQueryProvider'
 import { SidebarProvider } from './features/sidebar/SidebarProvider'
+import { ViewportProvider } from './provider/ViewportContextProvider'
 import { R } from './routes/Routes'
 
 /** Tableau des providers de l'application, instanciés avec leurs props initiales. */
 const providers = [
   // @ts-ignore
   <ReactQueryProvider key="react-query" showDevtools={import.meta.env.DEV} />,
+  <ViewportProvider key="viewport" />,
   <SidebarProvider key="sidebar" initialOpen={false} />,
 ]
 

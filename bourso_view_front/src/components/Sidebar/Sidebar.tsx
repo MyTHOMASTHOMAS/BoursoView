@@ -1,5 +1,5 @@
 import { useSidebarContext } from '../../features/sidebar/SidebarProvider'
-import { useIsMobile } from '../hooks/useIsMobile'
+import { useIsMobile } from '../../provider/ViewportContextProvider'
 import { DashboardIcon, IndicesIcon, TransactionsIcon, SettingsIcon, ChevronLeftIcon, UserIcon } from '../icons'
 import SidebarNavLink from './SidebarNavLink'
 
