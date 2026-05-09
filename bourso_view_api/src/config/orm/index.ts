@@ -2,6 +2,7 @@ import { SheetOrm, BaseOrmConfig } from "MypkgAppsScript/SheetsOrm";
 import { REFERENTIEL_TABLE_CONFIG } from "./tables/referentiel";
 import { TRANSACTION_TABLE_CONFIG } from "./tables/transaction";
 import { DIVIDENDE_TABLE_CONFIG } from "./tables/dividende";
+import { FUND_TABLE_CONFIG } from "./tables/fund";
 
 /**
  * Configuration complète de l'ORM
@@ -12,7 +13,8 @@ import { DIVIDENDE_TABLE_CONFIG } from "./tables/dividende";
 export const ORM_CONFIG = {
     referentiel: REFERENTIEL_TABLE_CONFIG,
     transaction: TRANSACTION_TABLE_CONFIG,
-    dividende: DIVIDENDE_TABLE_CONFIG
+    dividende: DIVIDENDE_TABLE_CONFIG,
+    fund: FUND_TABLE_CONFIG
 } as const satisfies BaseOrmConfig;
 
 /**

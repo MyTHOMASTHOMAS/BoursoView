@@ -5,6 +5,7 @@ export * from "./auth";
 export * from "./transaction";
 export * from "./history";
 export * from "./referentiel";
+export * from "./fund";
 
 // Quand tu créeras profile.ts, tu ajouteras simplement :
 // export * from "./profile";

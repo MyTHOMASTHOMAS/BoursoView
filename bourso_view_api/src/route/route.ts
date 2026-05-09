@@ -7,6 +7,9 @@ import { getReferentielRoute } from "./routes/referentiel/getReferentiel";
 import { createTransactionRoute } from "./routes/transaction/createTransaction";
 import { deleteTransactionRoute } from "./routes/transaction/deleteTransaction";
 import { getTransactionsRoute } from "./routes/transaction/getTransactions";
+import { getFundsRoute } from "./routes/fund/getFunds";
+import { createFundRoute } from "./routes/fund/createFund";
+import { deleteFundRoute } from "./routes/fund/deleteFund";
 import {Actions} from "Shared/RouteType";
 
 /**
@@ -23,6 +26,9 @@ const routes = {
    [Actions.map.getTransactionsAction]: getTransactionsRoute,
    [Actions.map.createTransactionAction]: createTransactionRoute,
    [Actions.map.deleteTransactionAction]: deleteTransactionRoute,
+   [Actions.map.getFundsAction]: getFundsRoute,
+   [Actions.map.createFundAction]: createFundRoute,
+   [Actions.map.deleteFundAction]: deleteFundRoute,
 } satisfies PostRouteRegistry<Actions.Type>;
 
 /**

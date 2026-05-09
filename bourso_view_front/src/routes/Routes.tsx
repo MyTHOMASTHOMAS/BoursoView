@@ -21,6 +21,7 @@ import MainLayout from '../layouts/MainLayout'
 import Dashboard from '../pages/Dashboard'
 import { Indices } from '../pages/indices'
 import { Transactions } from '../pages/transactions'
+import { Fons } from '../pages/fons'
 import Settings from '../pages/Settings'
 import NotFound from '../pages/NotFound'
 import { AppInitializer } from '../components/AppInitializer'
@@ -29,6 +30,7 @@ import { AppInitializer } from '../components/AppInitializer'
 const DashboardRoute: RouteObject    = { path: '/', element: <Dashboard />, index: true }
 const IndicesRoute: RouteObject      = { path: '/indices', element: <Indices /> }
 const TransactionsRoute: RouteObject = { path: '/transactions', element: <Transactions /> }
+const FonsRoute: RouteObject         = { path: '/fons', element: <Fons /> }
 const SettingsRoute: RouteObject     = { path: '/settings', element: <Settings /> }
 const NoRoute: RouteObject           = { path: '*', element: <NotFound /> }
 
@@ -40,7 +42,7 @@ const InitRoute: RouteObject = {
         {
             path: '/',
             element: <MainLayout />,
-            children: [DashboardRoute, IndicesRoute, TransactionsRoute, SettingsRoute, NoRoute],
+            children: [DashboardRoute, IndicesRoute, TransactionsRoute, FonsRoute, SettingsRoute, NoRoute],
         }
     ]
 }
@@ -54,11 +56,12 @@ const routeSchema: RouteSchema<RouteName> = {
 export const R = new RouteBuilder(routeSchema)
 
 // ─── LinkBuilder (navigation typée) ──────────────────────
-type LinkName = 'dashboard' | 'indices' | 'transactions' | 'settings'
+type LinkName = 'dashboard' | 'indices' | 'transactions' | 'fons' | 'settings'
 const linkSchema: RouteSchema<LinkName> = {
     dashboard: DashboardRoute,
     indices: IndicesRoute,
     transactions: TransactionsRoute,
+    fons: FonsRoute,
     settings: SettingsRoute,
 }
 export const L = new LinkBuilder(linkSchema)

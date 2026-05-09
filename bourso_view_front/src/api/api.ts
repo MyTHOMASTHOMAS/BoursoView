@@ -18,6 +18,9 @@ import {
     getTransactions,
     createTransaction,
     deleteTransaction,
+    getFunds,
+    createFund,
+    deleteFund,
 } from './routes'
 
 // 1. Récupère l'URL
@@ -44,4 +47,7 @@ export const api = Object.assign(createApi(baseUrl, {
     getTransactions,
     createTransaction,
     deleteTransaction,
+    getFunds,
+    createFund,
+    deleteFund,
 }), { client: apiClient });

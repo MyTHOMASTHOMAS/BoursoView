@@ -20,4 +20,12 @@ export {
     type CreateTransactionMethodsConfig,
     type DeleteTransactionMethodsConfig
 } from './transaction'
+export {
+    getFunds,
+    createFund,
+    deleteFund,
+    type GetFundsMethodsConfig,
+    type CreateFundMethodsConfig,
+    type DeleteFundMethodsConfig
+} from './fund'
 export { history, type HistoryMethodsConfig } from './history'

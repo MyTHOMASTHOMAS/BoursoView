@@ -12,3 +12,8 @@ export const deleteReferentielAction = "deleteReferentiel";
 export const getTransactionsAction = "getTransactions";
 export const createTransactionAction = "createTransaction";
 export const deleteTransactionAction = "deleteTransaction";
+
+// Actions pour la gestion des fonds
+export const getFundsAction = "getFunds";
+export const createFundAction = "createFund";
+export const deleteFundAction = "deleteFund";

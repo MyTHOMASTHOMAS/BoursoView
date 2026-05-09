@@ -7,6 +7,7 @@ export * from "./history";
 export * from "./error";
 export * from "./health";
 export * from "./referentiel";
+export * from "./fund";
 
 // Quand tu créeras profile.ts, tu ajouteras simplement :
 // export * from "./profile";
