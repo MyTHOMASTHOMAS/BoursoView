@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Table, TableActionsMenu, type TableColumn } from '../../components/Table'
+import { PriceTrendHoverCard } from '../../components/smart-display'
 import {
     PopupWindow,
     HistoryDetailsPopupElement,
@@ -36,7 +37,18 @@ export function IndicesPageView({
         { header: 'Nom', accessor: 'name' },
         { header: 'ISIN', accessor: 'isin' },
         { header: 'Frais de gestion (%)', accessor: 'management_fee' },
-        { header: 'Prix (€)', accessor: 'price' },
+        {
+            header: 'Evolution',
+            accessor: 'price',
+            render: (row) => (
+                <PriceTrendHoverCard
+                    price={row.price}
+                    price_j_1={row.estimated_j_1}
+                    price_j_7={row.estimated_j_7}
+                    price_m_1={row.estimated_1_mois}
+                />
+            )
+        },
         {
             header: 'Actions',
             accessor: '_line',

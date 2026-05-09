@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
+import { useEffect, useState, type MouseEvent as ReactMouseEvent } from 'react'
 import { createPortal } from 'react-dom'
+import { useFloatingOverlay } from '../common/useFloatingOverlay'
 
 export type TableActionOption = {
     id: string
@@ -27,74 +28,24 @@ export function TableActionsMenu({
     onOpenChange
 }: TableActionsMenuProps) {
     const [isOpen, setIsOpen] = useState(false)
-    const [menuStyle, setMenuStyle] = useState<{ top: number; left: number }>({ top: 0, left: 0 })
-    const containerRef = useRef<HTMLDivElement | null>(null)
-    const buttonRef = useRef<HTMLButtonElement | null>(null)
-    const menuRef = useRef<HTMLDivElement | null>(null)
-
-    const updateMenuPosition = () => {
-        const button = buttonRef.current
-        if (!button) return
-
-        const rect = button.getBoundingClientRect()
-        const viewportWidth = window.innerWidth
-        const viewportHeight = window.innerHeight
-        const menuWidth = 180
-        const menuHeight = Math.max(52, options.length * 40 + 16)
-        const spacing = 8
-
-        const left = Math.max(
-            spacing,
-            Math.min(rect.right - menuWidth, viewportWidth - menuWidth - spacing)
-        )
-
-        const openAbove = rect.bottom + spacing + menuHeight > viewportHeight - spacing
-        const top = openAbove
-            ? Math.max(spacing, rect.top - menuHeight - spacing)
-            : rect.bottom + spacing
-
-        setMenuStyle({ top, left })
-    }
+    const menuHeight = Math.max(52, options.length * 40 + 16)
+    const {
+        containerRef,
+        triggerRef,
+        overlayRef,
+        position: menuStyle,
+        updatePosition: updateMenuPosition
+    } = useFloatingOverlay({
+        width: 180,
+        height: menuHeight,
+        isOpen,
+        onClose: () => setIsOpen(false),
+        deps: [options.length]
+    })
 
     useEffect(() => {
         onOpenChange?.(isOpen)
     }, [isOpen, onOpenChange])
-
-    useEffect(() => {
-        if (!isOpen) return
-
-        const onDocumentClick = (event: MouseEvent) => {
-            const target = event.target as Node | null
-            const clickedInButtonContainer = containerRef.current?.contains(target) ?? false
-            const clickedInMenu = menuRef.current?.contains(target) ?? false
-            if (!clickedInButtonContainer && !clickedInMenu) {
-                setIsOpen(false)
-            }
-        }
-
-        const onEscape = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                setIsOpen(false)
-            }
-        }
-
-        document.addEventListener('mousedown', onDocumentClick)
-        window.addEventListener('keydown', onEscape)
-        window.addEventListener('resize', updateMenuPosition)
-        window.addEventListener('scroll', updateMenuPosition, true)
-
-        return () => {
-            document.removeEventListener('mousedown', onDocumentClick)
-            window.removeEventListener('keydown', onEscape)
-            window.removeEventListener('resize', updateMenuPosition)
-            window.removeEventListener('scroll', updateMenuPosition, true)
-        }
-    }, [isOpen, options.length])
-
-    useEffect(() => {
-        if (!isOpen) return
-        updateMenuPosition()
-    }, [isOpen, options.length])
 
     const toggleMenu = (event: ReactMouseEvent<HTMLButtonElement>) => {
         event.stopPropagation()
@@ -118,7 +69,9 @@ export function TableActionsMenu({
     return (
         <div ref={containerRef} className="relative inline-flex">
             <button
-                ref={buttonRef}
+                ref={(el) => {
+                    triggerRef.current = el
+                }}
                 type="button"
                 aria-label={buttonAriaLabel}
                 aria-haspopup="menu"
@@ -136,7 +89,7 @@ export function TableActionsMenu({
 
             {isOpen && createPortal(
                 <div
-                    ref={menuRef}
+                    ref={overlayRef}
                     role="menu"
                     className="fixed min-w-[180px] overflow-hidden rounded-xl border border-white/15 bg-slate-900/95 backdrop-blur-sm shadow-card z-[10000]"
                     style={{ top: `${menuStyle.top}px`, left: `${menuStyle.left}px` }}

@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand'
 import { useCallback, useMemo } from 'react'
-import { useAppStore } from '../../useAppStore'
+import { useAppStore } from '../../app-store'
 import { api } from '../../../api/api'
 import type { ResponseType as RT } from 'Shared/RouteType'
 

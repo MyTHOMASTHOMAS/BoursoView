@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { type ContextType as CT, Validator as V } from 'Shared/RouteType'
 import { api } from '../../../../api/api.ts'
-import { useAppStore } from '../../../../store/useAppStore.ts'
+import { useAppStore } from '../../../../store'
 
 export type DeleteFundFormPayload = Omit<CT.DeleteFundAction, 'authToken'>
 

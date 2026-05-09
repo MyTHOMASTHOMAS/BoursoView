@@ -15,6 +15,21 @@
 }
 
 @layer utilities {
+  /* Clignotement pour indices de variance saturés (0 ou 1) — sparkline / cartes delta */
+  @keyframes variance-extreme-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.28;
+    }
+  }
+
+  .animate-variance-extreme {
+    animation: variance-extreme-blink 0.75s ease-in-out infinite;
+  }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;

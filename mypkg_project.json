@@ -36,6 +36,10 @@
         },
         "typescript": {
             "package": {
+                "ColorManager": {
+                    "path": "mypkg_packages_typescript/ColorManager",
+                    "version": "v0.X"
+                },
                 "SequenceManager": {
                     "path": "mypkg_packages_typescript/SequenceManager",
                     "version": "v0.X"
