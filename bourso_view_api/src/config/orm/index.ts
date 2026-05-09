@@ -3,6 +3,8 @@ import { REFERENTIEL_TABLE_CONFIG } from "./tables/referentiel";
 import { TRANSACTION_TABLE_CONFIG } from "./tables/transaction";
 import { DIVIDENDE_TABLE_CONFIG } from "./tables/dividende";
 import { FUND_TABLE_CONFIG } from "./tables/fund";
+import { TRANSACTION_TOTAL_TABLE_CONFIG } from "./tables/transactionTotal";
+import { DIVIDENDE_TOTAL_TABLE_CONFIG } from "./tables/dividendeTotal";
 
 /**
  * Configuration complète de l'ORM
@@ -14,7 +16,9 @@ export const ORM_CONFIG = {
     referentiel: REFERENTIEL_TABLE_CONFIG,
     transaction: TRANSACTION_TABLE_CONFIG,
     dividende: DIVIDENDE_TABLE_CONFIG,
-    fund: FUND_TABLE_CONFIG
+    fund: FUND_TABLE_CONFIG,
+    transactionTotal: TRANSACTION_TOTAL_TABLE_CONFIG,
+    dividendeTotal: DIVIDENDE_TOTAL_TABLE_CONFIG
 } as const satisfies BaseOrmConfig;
 
 /**

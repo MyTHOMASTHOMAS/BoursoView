@@ -1,4 +1,32 @@
 /**
+ * Total agrege des transactions d'un referentiel.
+ */
+export type TransactionTotal = {
+    id: string;
+    price: number;
+    nb: number;
+    comission: number;
+    fee: number;
+    pru: number;
+    total_invested: number;
+    estimated: number;
+    estimated_j_1: number;
+    estimated_j_7: number;
+    estimated_1_mois: number;
+};
+
+/**
+ * Total agrege des dividendes d'un referentiel.
+ */
+export type DividendeTotal = {
+    id: number;
+    amount_brut: number;
+    taxe: number;
+    commission: number;
+    amount_net: number;
+};
+
+/**
  * Ligne referentiel renvoyee par l'API.
  */
 export type ReferentielItem = {
@@ -7,6 +35,13 @@ export type ReferentielItem = {
     isin: string;
     management_fee: number;
     price: number;
+    estimated_j_1: number;
+    estimated_j_7: number;
+    estimated_1_mois: number;
+    totals: {
+        transaction: TransactionTotal;
+        dividende: DividendeTotal;
+    };
     _line: number;
 };
 

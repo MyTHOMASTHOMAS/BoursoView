@@ -10,6 +10,9 @@ import { Position } from "MypkgAppsScript/SheetsService/src/SheetServiceTypes";
  * - isin : Code ISIN
  * - management_fee : Frais de gestion
  * - price : Prix (lecture seule)
+ * - estimated_j_1 : Evolution a 1 jour (lecture seule)
+ * - estimated_j_7 : Evolution a 7 jours (lecture seule)
+ * - estimated_1_mois : Evolution a 1 mois (lecture seule)
  */
 export const REFERENTIEL_TABLE_CONFIG: TableConfig = {
     sheetName: "Referentiel",
@@ -20,6 +23,9 @@ export const REFERENTIEL_TABLE_CONFIG: TableConfig = {
         { name: "name" },
         { name: "isin" },
         { name: "management_fee" },
-        { name: "price", readonly: true } // Lecture seule
+        { name: "price", readonly: true }, // Lecture seule
+        { name: "estimated_j_1", readonly: true }, // Lecture seule
+        { name: "estimated_j_7", readonly: true }, // Lecture seule
+        { name: "estimated_1_mois", readonly: true } // Lecture seule
     ]
 };
