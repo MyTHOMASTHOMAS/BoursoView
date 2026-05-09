@@ -1,6 +1,6 @@
 import { TableConfig } from "MypkgAppsScript/SheetsOrm/table/TableTypes";
 import { Position } from "MypkgAppsScript/SheetsService/src/SheetServiceTypes";
-import {dateToGoogleSheetFormat, googleSerialToDate} from "../../../utils/conversion/sheetsDateConversion";
+import { createIsoSheetDateColumn } from "./shared/dateColumn";
 
 /**
  * Configuration de la table Transaction
@@ -23,14 +23,7 @@ export const TRANSACTION_TABLE_CONFIG: TableConfig = {
     dataConfig: [
         { name: "id" },
         { name: "titre", readonly: true }, // Lecture seule
-        {
-            name: "date",
-            transform:
-                (value) => typeof value === "number"
-                    ? googleSerialToDate(value).toISOString()
-                    : 'error',
-            serializer: (value) => dateToGoogleSheetFormat(new Date(value))
-        },
+        createIsoSheetDateColumn("date"),
         { name: "price" },
         { name: "nb" },
         { name: "commission" },
