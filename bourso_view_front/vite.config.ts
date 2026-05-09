@@ -66,4 +66,44 @@ export default defineConfig({
   optimizeDeps: {
     include: ['react', 'react-dom', 'react/jsx-runtime', 'react-router-dom'],
   },
+
+  // Permt de chunk les librairie pour eviter le rechargement inutile
+  build: {
+    chunkSizeWarningLimit: 500, // Augmente légèrement la limite d'avertissement
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            // 1. Recharts et ses sous-dépendances (D3, lodash)
+            if (id.includes('recharts') || id.includes('d3-') || id.includes('lodash')) {
+              return 'vendor-recharts';
+            }
+
+            // 2. React Query
+            if (id.includes('@tanstack')) {
+              return 'vendor-query';
+            }
+
+            // 3. Le routeur ET son moteur sous-jacent (Remix)
+            if (id.includes('react-router') || id.includes('@remix-run')) {
+              return 'vendor-router';
+            }
+
+            // 4. React, React-DOM, et leurs utilitaires critiques (scheduler, use-sync-external-store)
+            if (
+                id.includes('/node_modules/react/') ||
+                id.includes('/node_modules/react-dom/') ||
+                id.includes('/node_modules/scheduler/') ||
+                id.includes('/node_modules/use-sync-external-store/')
+            ) {
+              return 'vendor-react';
+            }
+
+            // 5. Le reste (Zustand, Tailwind, etc.)
+            return 'vendor-core';
+          }
+        }
+      }
+    }
+  }
 })
