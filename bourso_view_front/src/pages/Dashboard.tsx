@@ -7,7 +7,6 @@ import { DashboardHeader } from './dashboard/components/DashboardHeader'
 import { DashboardPortfolioCard } from './dashboard/components/DashboardPortfolioCard'
 import { DashboardTopIndices } from './dashboard/components/DashboardTopIndices'
 import { DashboardSummary } from './dashboard/components/DashboardSummary'
-import { MOCK_TOP_INDICES } from './dashboard/data/dashboardMockData'
 import { useDashboardPage } from './dashboard/useDashboardPage'
 
 function DashboardResumeLoader() {
@@ -49,6 +48,10 @@ export default function Dashboard() {
         asOf,
         lastUpdated,
         refetchResume,
+        topIndices,
+        referentielsLoading,
+        referentielsError,
+        refetchReferentiels,
     } = useDashboardPage()
 
     return (
@@ -75,7 +78,12 @@ export default function Dashboard() {
                 </div>
 
                 <div className="xl:col-span-3">
-                    <DashboardTopIndices indices={MOCK_TOP_INDICES} />
+                    <DashboardTopIndices
+                        indices={topIndices}
+                        loading={referentielsLoading}
+                        error={referentielsError}
+                        onRetry={() => { void refetchReferentiels() }}
+                    />
                 </div>
             </div>
 

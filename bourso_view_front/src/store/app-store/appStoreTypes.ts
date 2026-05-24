@@ -21,6 +21,10 @@ export interface AppDisplayPreferencesSlice {
     /** Variance relative globale (sparkline, cartes tendance) ; défaut et persistance via slice dédié. */
     defaultVariance: number
     setDefaultVariance: (value: number) => void
+
+    /** Nombre de référentiels mis en avant sur l’accueil (tri par écart de variance). */
+    dashboardTopIndicesLimit: number
+    setDashboardTopIndicesLimit: (value: number) => void
 }
 
 export type AppStore = AppCoreSlice & AppDisplayPreferencesSlice

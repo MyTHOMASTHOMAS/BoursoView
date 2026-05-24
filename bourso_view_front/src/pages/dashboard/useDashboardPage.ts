@@ -1,6 +1,11 @@
 import { useMemo } from 'react'
-import { useResume } from '../../store'
-import { computePnL, format, formatSignedPercent } from '../../utils/math'
+import { useAppStore, useReferentiel, useResume } from '../../store'
+import {
+    computePnL,
+    format,
+    formatSignedPercent,
+    pickTopReferentielsByVarianceGap,
+} from '../../utils/math'
 
 function formatDashboardAsOf(timestamp?: number): string {
     const date = timestamp ? new Date(timestamp) : new Date()
@@ -29,6 +34,25 @@ export function useDashboardPage() {
         resumeUpdatedAt,
         refetchResume,
     } = useResume()
+
+    const {
+        referentiels,
+        referentielsLoading,
+        referentielsError,
+        refetchReferentiels,
+    } = useReferentiel()
+
+    const defaultVariance = useAppStore((state) => state.defaultVariance)
+    const dashboardTopIndicesLimit = useAppStore((state) => state.dashboardTopIndicesLimit)
+
+    const topIndices = useMemo(
+        () => pickTopReferentielsByVarianceGap(
+            referentiels,
+            dashboardTopIndicesLimit,
+            defaultVariance,
+        ),
+        [referentiels, defaultVariance, dashboardTopIndicesLimit],
+    )
 
     const totalValue = useMemo(
         () => (resume ? format(resume.transaction.total.estimated.current) : ''),
@@ -63,5 +87,9 @@ export function useDashboardPage() {
         asOf,
         lastUpdated,
         refetchResume,
+        topIndices,
+        referentielsLoading,
+        referentielsError,
+        refetchReferentiels,
     }
 }

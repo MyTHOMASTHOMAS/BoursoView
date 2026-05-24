@@ -22,7 +22,7 @@ import Dashboard from '../pages/Dashboard'
 import { Indices } from '../pages/indices'
 import { Transactions } from '../pages/transactions'
 import { Fons } from '../pages/fons'
-import Settings from '../pages/Settings'
+import Settings from '../pages/settings/Settings'
 import NotFound from '../pages/NotFound'
 import { AppInitializer } from '../components/AppInitializer'
 
