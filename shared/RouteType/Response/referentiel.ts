@@ -1,20 +1,19 @@
+import type { ResumeTimeSeriesValues } from "./timeSeries";
+
 /**
  * Total agrege des transactions d'un referentiel.
  */
 export type TransactionTotal = {
     id: string;
     price: number;
-    nb: number;
+    nb: ResumeTimeSeriesValues;
     comission: number;
     fee: number;
     pru: number;
-    total_invested: number;
-    estimated: number;
-    estimated_j_1: number;
-    estimated_j_7: number;
-    estimated_1_mois: number;
-    estimated_6_mois: number;
-    estimated_1_an: number;
+    total: {
+        invest: ResumeTimeSeriesValues;
+        estimated: ResumeTimeSeriesValues;
+    };
 };
 
 /**

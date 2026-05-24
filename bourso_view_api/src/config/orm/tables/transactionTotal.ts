@@ -4,20 +4,11 @@ import { Position } from "MypkgAppsScript/SheetsService/src/SheetServiceTypes";
 /**
  * Configuration de la table TransactionTotal
  *
- * Colonnes :
- * - id : Identifiant du produit (ex: ticker/code interne)
- * - price : Prix brut total (sans application des frais)
- * - nb : Quantite detenue
- * - comission : Total des commissions appliquees
- * - fee : Total des frais supplementaires
- * - pru : Prix de revient unitaire
- * - total_invested : Montant total investi apres application des frais
- * - estimated : Valorisation estimee actuelle
- * - estimated_j_1 : Valorisation estimee a J-1
- * - estimated_j_7 : Valorisation estimee a J-7
- * - estimated_1_mois : Valorisation estimee a 1 mois
- * - estimated_6_mois : Valorisation estimee a 6 mois
- * - estimated_1_an : Valorisation estimee a 1 an
+ * Colonnes (ordre feuille, a partir de A) :
+ * - id, price, nb, nb j-1, nb j-7, nb -1mois, nb -6mois, nb -1ans
+ * - comission, fee, pru
+ * - total invested, invested j-1, invested j-7, invested -1 mois, invested -6mois, invested -1 an
+ * - total estimated, estimated j-1, estimated j-7, estimated -1 mois, estimated -6mois, estimated -1 an
  *
  * Table en lecture seule : toutes les colonnes sont marquees readonly.
  */
@@ -29,10 +20,20 @@ export const TRANSACTION_TOTAL_TABLE_CONFIG: TableConfig = {
         { name: "id", readonly: true },
         { name: "price", readonly: true },
         { name: "nb", readonly: true },
+        { name: "nb_j_1", readonly: true },
+        { name: "nb_j_7", readonly: true },
+        { name: "nb_1_mois", readonly: true },
+        { name: "nb_6_mois", readonly: true },
+        { name: "nb_1_an", readonly: true },
         { name: "comission", readonly: true },
         { name: "fee", readonly: true },
         { name: "pru", readonly: true },
         { name: "total_invested", readonly: true },
+        { name: "invested_j_1", readonly: true },
+        { name: "invested_j_7", readonly: true },
+        { name: "invested_1_mois", readonly: true },
+        { name: "invested_6_mois", readonly: true },
+        { name: "invested_1_an", readonly: true },
         { name: "estimated", readonly: true },
         { name: "estimated_j_1", readonly: true },
         { name: "estimated_j_7", readonly: true },

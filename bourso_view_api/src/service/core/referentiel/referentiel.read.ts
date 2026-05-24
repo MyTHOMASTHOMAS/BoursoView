@@ -1,21 +1,107 @@
 import { db } from "../../sheet";
-import { ReferentielItem, TransactionTotal, DividendeTotal } from "Shared/RouteType/Response";
+import {
+    ReferentielItem,
+    TransactionTotal,
+    DividendeTotal,
+    ResumeTimeSeriesValues
+} from "Shared/RouteType/Response";
+
+/** Ligne TransactionTotal telle que lue depuis la feuille (colonnes plates). */
+type TransactionTotalRaw = {
+    id: string;
+    price: number;
+    nb: number;
+    nb_j_1: number;
+    nb_j_7: number;
+    nb_1_mois: number;
+    nb_6_mois: number;
+    nb_1_an: number;
+    comission: number;
+    fee: number;
+    pru: number;
+    total_invested: number;
+    invested_j_1: number;
+    invested_j_7: number;
+    invested_1_mois: number;
+    invested_6_mois: number;
+    invested_1_an: number;
+    estimated: number;
+    estimated_j_1: number;
+    estimated_j_7: number;
+    estimated_1_mois: number;
+    estimated_6_mois: number;
+    estimated_1_an: number;
+};
+
+const EMPTY_TIME_SERIES: ResumeTimeSeriesValues = {
+    current: 0,
+    j1: 0,
+    j7: 0,
+    j30: 0,
+    m6: 0,
+    y1: 0
+};
 
 const EMPTY_TRANSACTION_TOTAL: TransactionTotal = {
     id: "",
     price: 0,
-    nb: 0,
+    nb: { ...EMPTY_TIME_SERIES },
     comission: 0,
     fee: 0,
     pru: 0,
-    total_invested: 0,
-    estimated: 0,
-    estimated_j_1: 0,
-    estimated_j_7: 0,
-    estimated_1_mois: 0,
-    estimated_6_mois: 0,
-    estimated_1_an: 0
+    total: {
+        invest: { ...EMPTY_TIME_SERIES },
+        estimated: { ...EMPTY_TIME_SERIES }
+    }
 };
+
+function mapNbSeries(raw: TransactionTotalRaw): ResumeTimeSeriesValues {
+    return {
+        current: raw.nb,
+        j1: raw.nb_j_1,
+        j7: raw.nb_j_7,
+        j30: raw.nb_1_mois,
+        m6: raw.nb_6_mois,
+        y1: raw.nb_1_an
+    };
+}
+
+function mapInvestSeries(raw: TransactionTotalRaw): ResumeTimeSeriesValues {
+    return {
+        current: raw.total_invested,
+        j1: raw.invested_j_1,
+        j7: raw.invested_j_7,
+        j30: raw.invested_1_mois,
+        m6: raw.invested_6_mois,
+        y1: raw.invested_1_an
+    };
+}
+
+function mapEstimatedSeries(raw: TransactionTotalRaw): ResumeTimeSeriesValues {
+    return {
+        current: raw.estimated,
+        j1: raw.estimated_j_1,
+        j7: raw.estimated_j_7,
+        j30: raw.estimated_1_mois,
+        m6: raw.estimated_6_mois,
+        y1: raw.estimated_1_an
+    };
+}
+
+function mapTransactionTotal(raw: TransactionTotalRaw): TransactionTotal {
+    return {
+        id: raw.id,
+        price: raw.price,
+        nb: mapNbSeries(raw),
+        comission: raw.comission,
+        fee: raw.fee,
+        pru: raw.pru,
+        total: {
+            invest: mapInvestSeries(raw),
+            estimated: mapEstimatedSeries(raw)
+        }
+    };
+}
 
 const EMPTY_DIVIDENDE_TOTAL: DividendeTotal = {
     id: 0,
@@ -38,7 +124,9 @@ export default {
         }
 
         const referentiels = referentielRepository.getMany() as Array<Omit<ReferentielItem, "totals">>;
-        const transactionTotals = transactionTotalRepository.getMany() as TransactionTotal[];
+        const transactionTotals = (transactionTotalRepository.getMany() as TransactionTotalRaw[]).map(
+            mapTransactionTotal
+        );
         const dividendeTotals = dividendeTotalRepository.getMany() as DividendeTotal[];
 
         return referentiels.map((referentiel) => {

@@ -8,6 +8,7 @@ export * from "./error";
 export * from "./health";
 export * from "./referentiel";
 export * from "./fund";
+export * from "./timeSeries";
 export * from "./resume";
 
 // Quand tu créeras profile.ts, tu ajouteras simplement :
