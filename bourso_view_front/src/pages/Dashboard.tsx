@@ -1,45 +1,85 @@
 /**
  * @file Dashboard.tsx
- * @description Page d'accueil — template de prévisualisation avec données statiques.
- *
- * Architecture des composants :
- * - `DashboardHeader`        → En-tête avec titre et date de mise à jour
- * - `DashboardPortfolioCard` → Carte valorisation totale
- * - `DashboardTopIndices`    → Referentiels — liste horizontale avec PriceTrendHoverCard
- * - `DashboardSummary`       → Résumé (Performance Dietz, Fonds, Positions, Dividendes)
+ * @description Page d'accueil — résumé portefeuille via API getResume.
  */
+import { Loader } from '../components/loading'
 import { DashboardHeader } from './dashboard/components/DashboardHeader'
 import { DashboardPortfolioCard } from './dashboard/components/DashboardPortfolioCard'
 import { DashboardTopIndices } from './dashboard/components/DashboardTopIndices'
 import { DashboardSummary } from './dashboard/components/DashboardSummary'
-import {
-    MOCK_TOP_INDICES,
-    MOCK_SUMMARY,
-} from './dashboard/data/dashboardMockData'
-import { format } from '../utils/math'
+import { MOCK_TOP_INDICES } from './dashboard/data/dashboardMockData'
+import { useDashboardPage } from './dashboard/useDashboardPage'
+
+function DashboardResumeLoader() {
+    return (
+        <div className="glass-card radius-card">
+            <Loader message="Chargement du résumé portefeuille..." />
+        </div>
+    )
+}
+
+function DashboardResumeError({
+    message,
+    onRetry,
+}: {
+    message: string
+    onRetry: () => void
+}) {
+    return (
+        <div className="glass-card radius-card p-5 space-y-3 text-center">
+            <p className="text-error text-small">{message}</p>
+            <button
+                type="button"
+                onClick={onRetry}
+                className="btn-padding radius-btn border border-subtle text-primary hover:surface-hover transition-colors cursor-pointer"
+            >
+                Réessayer
+            </button>
+        </div>
+    )
+}
 
 export default function Dashboard() {
+    const {
+        resume,
+        resumeLoading,
+        resumeError,
+        totalValue,
+        totalDelta,
+        asOf,
+        lastUpdated,
+        refetchResume,
+    } = useDashboardPage()
+
     return (
         <div className="space-y-6">
-            {/* En-tête */}
-            <DashboardHeader />
+            <DashboardHeader lastUpdated={lastUpdated} />
 
-            {/* Carte de valorisation + Referentiels */}
             <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
                 <div className="xl:col-span-2">
-                    <DashboardPortfolioCard
-                        totalValue={format(MOCK_SUMMARY.transaction.total.estimated.current)}
-                        totalDelta="+11,6 %"
-                        total={MOCK_SUMMARY.transaction.total}
-                    />
+                    {resumeLoading && <DashboardResumeLoader />}
+                    {!resumeLoading && resumeError && (
+                        <DashboardResumeError
+                            message={resumeError}
+                            onRetry={() => { void refetchResume() }}
+                        />
+                    )}
+                    {!resumeLoading && resume && (
+                        <DashboardPortfolioCard
+                            totalValue={totalValue}
+                            totalDelta={totalDelta}
+                            asOf={asOf}
+                            total={resume.transaction.total}
+                        />
+                    )}
                 </div>
+
                 <div className="xl:col-span-3">
                     <DashboardTopIndices indices={MOCK_TOP_INDICES} />
                 </div>
             </div>
 
-            {/* Résumé du portefeuille */}
-            <DashboardSummary data={MOCK_SUMMARY} />
+            {!resumeLoading && resume && <DashboardSummary data={resume} />}
         </div>
     )
 }

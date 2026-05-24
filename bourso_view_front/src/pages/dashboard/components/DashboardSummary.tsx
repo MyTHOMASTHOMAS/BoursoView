@@ -9,7 +9,7 @@
  * - `DividendesCard`  — versements brut/net, taxe
  *
  * @remarks
- * Lors de l'intégration réelle, remplacer `data` par la réponse du hook API `/summary`.
+ * Lors de l'intégration réelle, remplacer `data` par la réponse du hook `useResume`.
  */
 import { FundCard } from './summary/FundCard'
 import { PositionCard } from './summary/PositionCard'
@@ -37,7 +37,7 @@ export function DashboardSummary({ data }: DashboardSummaryProps) {
 
             {/* 3 cartes secondaires en grille */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <FundCard fund={data.fund} />
+                <FundCard data={data} />
                 <PositionCard transaction={data.transaction} />
                 <DividendesCard dividendes={data.dividendes} />
             </div>

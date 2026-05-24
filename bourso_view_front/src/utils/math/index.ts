@@ -6,7 +6,6 @@ export {
     computeModifiedDietz,
     computeAdjustedPriceReference,
     computeTotalInvested,
-    computeEngaged,
     format,
     formatSignedPercent,
     formatSignedNumber,

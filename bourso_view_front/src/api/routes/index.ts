@@ -29,3 +29,4 @@ export {
     type DeleteFundMethodsConfig
 } from './fund'
 export { history, type HistoryMethodsConfig } from './history'
+export { getResume, type GetResumeMethodsConfig } from './resume'

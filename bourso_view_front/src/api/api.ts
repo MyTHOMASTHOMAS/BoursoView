@@ -21,6 +21,7 @@ import {
     getFunds,
     createFund,
     deleteFund,
+    getResume,
 } from './routes'
 
 // 1. Récupère l'URL
@@ -50,4 +51,5 @@ export const api = Object.assign(createApi(baseUrl, {
     getFunds,
     createFund,
     deleteFund,
+    getResume,
 }), { client: apiClient });
