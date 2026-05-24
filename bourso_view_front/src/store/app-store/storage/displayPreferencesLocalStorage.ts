@@ -17,9 +17,23 @@ export const DEFAULT_DASHBOARD_TOP_INDICES_LIMIT = 5
 export const DASHBOARD_TOP_INDICES_MIN = 1
 export const DASHBOARD_TOP_INDICES_MAX = 20
 
+/** Mode d'affichage des tendances référentiels sur l'accueil (hors onglet Paramètres). */
+export type DashboardIndicesTrendMode = 'price' | 'portfolio'
+
+export const DEFAULT_DASHBOARD_INDICES_TREND_MODE: DashboardIndicesTrendMode = 'price'
+
+const DASHBOARD_INDICES_TREND_MODES: DashboardIndicesTrendMode[] = ['price', 'portfolio']
+
 export type AppDisplayPreferencesPersisted = {
     defaultVariance?: number
+    /** Variance pour la valorisation globale du portefeuille (Dietz, carte totale). */
+    portfolioVariance?: number
     dashboardTopIndicesLimit?: number
+    dashboardIndicesTrendMode?: DashboardIndicesTrendMode
+}
+
+function isDashboardIndicesTrendMode(value: unknown): value is DashboardIndicesTrendMode {
+    return typeof value === 'string' && DASHBOARD_INDICES_TREND_MODES.includes(value as DashboardIndicesTrendMode)
 }
 
 function isVarianceInPersistedRange(value: number): boolean {
@@ -73,10 +87,20 @@ export function writeDisplayPreferencesPatch(
         next.defaultVariance = patch.defaultVariance
     }
 
+    if (patch.portfolioVariance !== undefined) {
+        if (!isVarianceInPersistedRange(patch.portfolioVariance)) return false
+        next.portfolioVariance = patch.portfolioVariance
+    }
+
     if (patch.dashboardTopIndicesLimit !== undefined) {
         const limit = Math.floor(patch.dashboardTopIndicesLimit)
         if (!isDashboardTopIndicesLimitInRange(limit)) return false
         next.dashboardTopIndicesLimit = limit
+    }
+
+    if (patch.dashboardIndicesTrendMode !== undefined) {
+        if (!isDashboardIndicesTrendMode(patch.dashboardIndicesTrendMode)) return false
+        next.dashboardIndicesTrendMode = patch.dashboardIndicesTrendMode
     }
 
     return writePersistedPreferences(next)
@@ -109,8 +133,33 @@ export function writeDefaultVarianceToStorage(defaultVariance: number): boolean 
 }
 
 /**
+ * Lit la variance portefeuille global ou retombe sur {@link readDefaultVarianceFromStorage}.
+ */
+export function readPortfolioVarianceFromStorage(): number {
+    const v = readPersistedPreferences().portfolioVariance
+    if (v != null && isVarianceInPersistedRange(v)) return v
+    return readDefaultVarianceFromStorage()
+}
+
+export function writePortfolioVarianceToStorage(portfolioVariance: number): boolean {
+    return writeDisplayPreferencesPatch({ portfolioVariance })
+}
+
+/**
  * Enregistre le nombre de référentiels affichés sur l’accueil.
  */
 export function writeDashboardTopIndicesLimitToStorage(dashboardTopIndicesLimit: number): boolean {
     return writeDisplayPreferencesPatch({ dashboardTopIndicesLimit })
+}
+
+export function readDashboardIndicesTrendModeFromStorage(): DashboardIndicesTrendMode {
+    const mode = readPersistedPreferences().dashboardIndicesTrendMode
+    if (isDashboardIndicesTrendMode(mode)) return mode
+    return DEFAULT_DASHBOARD_INDICES_TREND_MODE
+}
+
+export function writeDashboardIndicesTrendModeToStorage(
+    dashboardIndicesTrendMode: DashboardIndicesTrendMode,
+): boolean {
+    return writeDisplayPreferencesPatch({ dashboardIndicesTrendMode })
 }

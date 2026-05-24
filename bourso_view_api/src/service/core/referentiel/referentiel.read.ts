@@ -6,6 +6,21 @@ import {
     ResumeTimeSeriesValues
 } from "Shared/RouteType/Response";
 
+/** Ligne Referentiel telle que lue depuis la feuille (colonnes plates). */
+type ReferentielItemRaw = {
+    id: string;
+    name: string;
+    isin: string;
+    management_fee: number;
+    price: number;
+    estimated_j_1: number;
+    estimated_j_7: number;
+    estimated_1_mois: number;
+    estimated_6_mois: number;
+    estimated_1_an: number;
+    _line: number;
+};
+
 /** Ligne TransactionTotal telle que lue depuis la feuille (colonnes plates). */
 type TransactionTotalRaw = {
     id: string;
@@ -54,6 +69,28 @@ const EMPTY_TRANSACTION_TOTAL: TransactionTotal = {
         estimated: { ...EMPTY_TIME_SERIES }
     }
 };
+
+function mapPriceSeries(raw: ReferentielItemRaw): ResumeTimeSeriesValues {
+    return {
+        current: raw.price,
+        j1: raw.estimated_j_1,
+        j7: raw.estimated_j_7,
+        j30: raw.estimated_1_mois,
+        m6: raw.estimated_6_mois,
+        y1: raw.estimated_1_an
+    };
+}
+
+function mapReferentielItem(raw: ReferentielItemRaw): Omit<ReferentielItem, "totals"> {
+    return {
+        id: raw.id,
+        name: raw.name,
+        isin: raw.isin,
+        management_fee: raw.management_fee,
+        price: mapPriceSeries(raw),
+        _line: raw._line
+    };
+}
 
 function mapNbSeries(raw: TransactionTotalRaw): ResumeTimeSeriesValues {
     return {
@@ -123,7 +160,7 @@ export default {
             return [] as ReferentielItem[];
         }
 
-        const referentiels = referentielRepository.getMany() as Array<Omit<ReferentielItem, "totals">>;
+        const referentiels = (referentielRepository.getMany() as ReferentielItemRaw[]).map(mapReferentielItem);
         const transactionTotals = (transactionTotalRepository.getMany() as TransactionTotalRaw[]).map(
             mapTransactionTotal
         );

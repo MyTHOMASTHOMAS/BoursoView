@@ -12,7 +12,12 @@ export {
     DISPLAY_VARIANCE_MIN_EXCLUSIVE,
     readDashboardTopIndicesLimitFromStorage,
     readDefaultVarianceFromStorage,
+    readPortfolioVarianceFromStorage,
     writeDashboardTopIndicesLimitToStorage,
+    writeDashboardIndicesTrendModeToStorage,
     writeDefaultVarianceToStorage,
-    type AppDisplayPreferencesPersisted
+    writePortfolioVarianceToStorage,
+    type AppDisplayPreferencesPersisted,
+    type DashboardIndicesTrendMode,
+    DEFAULT_DASHBOARD_INDICES_TREND_MODE,
 } from './storage/displayPreferencesLocalStorage'

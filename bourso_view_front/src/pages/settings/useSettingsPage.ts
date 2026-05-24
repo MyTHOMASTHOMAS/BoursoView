@@ -17,6 +17,8 @@ function formatVarianceHint(value: number): string {
 export function useSettingsPage() {
     const defaultVariance = useAppStore((s) => s.defaultVariance)
     const setDefaultVariance = useAppStore((s) => s.setDefaultVariance)
+    const portfolioVariance = useAppStore((s) => s.portfolioVariance)
+    const setPortfolioVariance = useAppStore((s) => s.setPortfolioVariance)
     const dashboardTopIndicesLimit = useAppStore((s) => s.dashboardTopIndicesLimit)
     const setDashboardTopIndicesLimit = useAppStore((s) => s.setDashboardTopIndicesLimit)
 
@@ -53,6 +55,13 @@ export function useSettingsPage() {
         isValid: isVarianceValid,
     })
 
+    const portfolioVarianceField = useNumericSettingInput({
+        storedValue: portfolioVariance,
+        onCommit: setPortfolioVariance,
+        parse: parseVariance,
+        isValid: isVarianceValid,
+    })
+
     const topIndicesField = useNumericSettingInput({
         storedValue: dashboardTopIndicesLimit,
         onCommit: setDashboardTopIndicesLimit,
@@ -62,9 +71,12 @@ export function useSettingsPage() {
 
     return {
         defaultVariance,
+        portfolioVariance,
         dashboardTopIndicesLimit,
         varianceHint: formatVarianceHint(defaultVariance),
+        portfolioVarianceHint: formatVarianceHint(portfolioVariance),
         varianceField,
+        portfolioVarianceField,
         topIndicesField,
     }
 }

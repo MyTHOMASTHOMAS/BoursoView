@@ -42,12 +42,12 @@ export function IndicesPageView({
             accessor: 'price',
             render: (row) => (
                 <PriceTrendHoverCard
-                    price={row.price}
-                    price_j_1={row.estimated_j_1}
-                    price_j_7={row.estimated_j_7}
-                    price_m_1={row.estimated_1_mois}
-                    price_m_6={row.estimated_6_mois}
-                    price_y_1={row.estimated_1_an}
+                    price={row.price.current}
+                    price_j_1={row.price.j1}
+                    price_j_7={row.price.j7}
+                    price_m_1={row.price.j30}
+                    price_m_6={row.price.m6}
+                    price_y_1={row.price.y1}
                 />
             )
         },

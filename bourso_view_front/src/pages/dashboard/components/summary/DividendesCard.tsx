@@ -3,10 +3,10 @@
  * @description Carte des dividendes : versements reçus, montant brut, taxe, net.
  */
 import { format } from '../../../../utils/math'
-import type { DashboardSummaryData } from '../../data/dashboardMockData'
+import type { ResponseType as RT } from 'Shared/RouteType'
 
 type DividendesCardProps = {
-    dividendes: DashboardSummaryData['dividendes']
+    dividendes: RT.GetResumeAction['dividendes']
 }
 
 type DivRowProps = {
@@ -34,7 +34,7 @@ function DivRow({ label, value, accent, deduct }: DivRowProps) {
  */
 export function DividendesCard({ dividendes }: DividendesCardProps) {
     return (
-        <div className="glass-card radius-card p-4 space-y-3 hover:border-primary/30 transition-all duration-300">
+        <div className="glass-card radius-card p-4 flex flex-col gap-3 h-full w-full hover:border-primary/30 transition-all duration-300">
             {/* Header avec badge count */}
             <div className="flex items-center justify-between gap-3">
                 <p className="text-muted text-small font-medium uppercase tracking-wide">Dividendes</p>

@@ -1,16 +1,14 @@
 /**
- * @file DashboardTopIndices.tsx
- * @description Liste horizontale défilante des referentiels du portefeuille.
- *
- * Affiche uniquement le nom de l'indice et son `PriceTrendHoverCard`
- * (sparkline 1j / 7j / 1 mois + popup avec horizons 6 mois / 1 an).
+ * @file DashboardIndicesSection.tsx
+ * @description Bandeau horizontal des référentiels mis en avant + bascule cours / marché.
  */
 import { Loader } from '../../../components/loading'
-import { PriceTrendHoverCard } from '../../../components/smart-display'
 import { L } from '../../../routes/Routes'
 import type { ResponseType as RT } from 'Shared/RouteType'
+import { DashboardIndicesTrendToggle } from './DashboardIndicesTrendToggle'
+import { IndiceTrendCard } from './IndiceTrendCard'
 
-type DashboardTopIndicesProps = {
+type DashboardIndicesSectionProps = {
     indices: RT.ReferentielItem[]
     loading?: boolean
     error?: string | null
@@ -24,39 +22,34 @@ function IndiceItem({ indice }: { indice: RT.ReferentielItem }) {
                 <p className="text-small font-semibold text-primary whitespace-nowrap">{indice.id}</p>
                 <p className="text-[11px] text-muted whitespace-nowrap max-w-[140px] truncate">{indice.name}</p>
             </div>
-
-            <PriceTrendHoverCard
-                price={indice.price}
-                price_j_1={indice.estimated_j_1}
-                price_j_7={indice.estimated_j_7}
-                price_m_1={indice.estimated_1_mois}
-                price_m_6={indice.estimated_6_mois}
-                price_y_1={indice.estimated_1_an}
-            />
+            <IndiceTrendCard indice={indice} />
         </div>
     )
 }
 
-export function DashboardTopIndices({
+export function DashboardIndicesSection({
     indices,
     loading = false,
     error = null,
     onRetry,
-}: DashboardTopIndicesProps) {
+}: DashboardIndicesSectionProps) {
     return (
-        <div className="glass-card radius-card p-5 space-y-3">
-            <div className="flex items-center justify-between gap-4">
-                <p className="text-muted text-small font-medium">Referentiels</p>
+        <div className="glass-card radius-card p-5 flex flex-col gap-3 h-full w-full min-h-[12rem]">
+            <div className="flex items-start justify-between gap-3">
+                <div className="space-y-2">
+                    <p className="text-muted text-small font-medium">Indices</p>
+                    <DashboardIndicesTrendToggle />
+                </div>
                 <L.Link
                     routeName="indices"
-                    className="text-small text-muted hover:text-primary transition-colors shrink-0"
+                    className="text-small text-muted hover:text-primary transition-colors shrink-0 pt-0.5"
                 >
                     Voir tout →
                 </L.Link>
             </div>
 
             {loading && (
-                <Loader message="Chargement des referentiels..." />
+                <Loader message="Chargement des référentiels..." />
             )}
 
             {!loading && error && (
@@ -75,11 +68,11 @@ export function DashboardTopIndices({
             )}
 
             {!loading && !error && indices.length === 0 && (
-                <p className="text-muted text-small py-2">Aucun referentiel disponible.</p>
+                <p className="text-muted text-small py-2">Aucun référentiel disponible.</p>
             )}
 
             {!loading && !error && indices.length > 0 && (
-                <div className="scrollbar-thin flex gap-3 overflow-x-auto pb-2">
+                <div className="scrollbar-thin flex flex-1 min-h-0 gap-3 overflow-x-auto pb-2 items-stretch">
                     {indices.map((indice) => (
                         <IndiceItem key={indice.id} indice={indice} />
                     ))}

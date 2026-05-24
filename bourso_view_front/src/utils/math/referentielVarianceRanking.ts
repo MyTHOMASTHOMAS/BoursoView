@@ -16,9 +16,9 @@ import { getVarianceGradientIndex } from './varianceGradientIndex'
 export const REFERENTIEL_TREND_REF_HORIZON_DAYS = 30
 
 const REFERENTIEL_VARIANCE_HORIZONS = [
-    { segmentDays: 1, getReference: (r: RT.ReferentielItem) => r.estimated_j_1 },
-    { segmentDays: 7, getReference: (r: RT.ReferentielItem) => r.estimated_j_7 },
-    { segmentDays: 30, getReference: (r: RT.ReferentielItem) => r.estimated_1_mois },
+    { segmentDays: 1, getReference: (r: RT.ReferentielItem) => r.price.j1 },
+    { segmentDays: 7, getReference: (r: RT.ReferentielItem) => r.price.j7 },
+    { segmentDays: 30, getReference: (r: RT.ReferentielItem) => r.price.j30 },
 ] as const
 
 /**
@@ -39,7 +39,7 @@ export function computeReferentielVarianceGapScore(
     referentiel: RT.ReferentielItem,
     variance: number,
 ): number {
-    const price = referentiel.price
+    const price = referentiel.price.current
     let maxGap = 0
 
     for (const { segmentDays, getReference } of REFERENTIEL_VARIANCE_HORIZONS) {

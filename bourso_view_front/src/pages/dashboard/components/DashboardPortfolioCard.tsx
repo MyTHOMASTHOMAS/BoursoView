@@ -6,8 +6,9 @@
  * de marché cohérentes avec `PerformanceCard` (hors apports de capital).
  */
 import { PortfolioTrendHoverCard } from '../../../components/smart-display'
+import { useAppStore } from '../../../store'
 import { format } from '../../../utils/math'
-import type { DashboardSummaryData } from '../data/dashboardMockData'
+import type { ResponseType as RT } from 'Shared/RouteType'
 
 type DashboardPortfolioCardProps = {
     /** Valeur liquidative affichée en grand (ex. "2 912,91"). */
@@ -17,7 +18,7 @@ type DashboardPortfolioCardProps = {
     /** Date de référence affichée en sous-titre. */
     asOf?: string
     /** Séries estimated + invest pour le PortfolioTrendHoverCard. */
-    total: DashboardSummaryData['transaction']['total']
+    total: RT.GetResumeAction['transaction']['total']
 }
 
 /**
@@ -30,8 +31,10 @@ export function DashboardPortfolioCard({
     asOf = '24/05/2026',
     total,
 }: DashboardPortfolioCardProps) {
+    const portfolioVariance = useAppStore((s) => s.portfolioVariance)
+
     return (
-        <div className="glass-card radius-card p-5 space-y-4 hover:border-primary transition-all duration-300">
+        <div className="glass-card radius-card p-5 flex flex-col gap-4 h-full w-full min-h-[12rem] hover:border-primary transition-all duration-300">
             <p className="text-muted text-small font-medium">Valeur totale du portefeuille</p>
 
             <div className="space-y-0.5">
@@ -41,7 +44,7 @@ export function DashboardPortfolioCard({
                 </p>
             </div>
 
-            <div className="border-t border-white/5 pt-3 flex items-center justify-between gap-3 flex-wrap">
+            <div className="border-t border-white/5 pt-3 mt-auto flex items-center justify-between gap-3 flex-wrap">
                 <div className="space-y-0.5">
                     <p className="text-muted text-small">Évaluation au {asOf}</p>
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold border bg-emerald-400/10 text-emerald-400 border-emerald-400/20">
@@ -52,6 +55,7 @@ export function DashboardPortfolioCard({
                 <PortfolioTrendHoverCard
                     estimated={total.estimated}
                     invest={total.invest}
+                    variance={portfolioVariance}
                 />
             </div>
         </div>

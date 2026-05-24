@@ -3,10 +3,10 @@
  * @description Carte des fonds du compte-titre : total versé, disponible, engagé.
  */
 import { format } from '../../../../utils/math'
-import type { DashboardSummaryData } from '../../data/dashboardMockData'
+import type { ResponseType as RT } from 'Shared/RouteType'
 
 type FundCardProps = {
-    data: DashboardSummaryData
+    data: RT.GetResumeAction
 }
 
 type FundRowProps = {
@@ -33,7 +33,7 @@ function FundRow({ label, value, highlight, muted }: FundRowProps) {
 export function FundCard({ data }: FundCardProps) {
 
     return (
-        <div className="glass-card radius-card p-4 space-y-3 hover:border-primary/30 transition-all duration-300">
+        <div className="glass-card radius-card p-4 flex flex-col gap-3 h-full w-full hover:border-primary/30 transition-all duration-300">
             {/* Header */}
             <p className="text-muted text-small font-medium uppercase tracking-wide">Fonds</p>
 

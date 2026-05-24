@@ -14,13 +14,20 @@ import { SettingsSectionCard } from './SettingsSectionCard'
 
 type DisplayPreferencesSectionProps = Pick<
     SettingsPageViewProps,
-    'dashboardTopIndicesLimit' | 'varianceHint' | 'varianceField' | 'topIndicesField'
+    | 'dashboardTopIndicesLimit'
+    | 'varianceHint'
+    | 'portfolioVarianceHint'
+    | 'varianceField'
+    | 'portfolioVarianceField'
+    | 'topIndicesField'
 >
 
 export function DisplayPreferencesSection({
     dashboardTopIndicesLimit,
     varianceHint,
+    portfolioVarianceHint,
     varianceField,
+    portfolioVarianceField,
     topIndicesField,
 }: DisplayPreferencesSectionProps) {
     return (
@@ -28,19 +35,19 @@ export function DisplayPreferencesSection({
             title="Affichage des cours"
             intro={
                 <p>
-                    Réglages partagés par les mini-graphiques, les cartes de variation et le
-                    bandeau de référentiels sur l&apos;accueil.
+                    Réglages des mini-graphiques et cartes de variation sur l&apos;accueil :
+                    une variance pour les cours des indices, une pour le portefeuille global.
                 </p>
             }
         >
             <SettingsFieldGroup
-                label="Variance par défaut"
+                label="Variance des indices"
                 htmlFor="app-variance"
                 description={
                     <>
                         <p>
-                            Définit l&apos;échelle des mouvements de prix affichés dans les
-                            tendances (couleur et intensité du gradient).
+                            Échelle des mouvements de <strong>prix</strong> pour les référentiels
+                            (mode «&nbsp;Cours&nbsp;» : sparklines et cartes de variation au prix spot).
                         </p>
                         <ul className="list-disc pl-5 space-y-1.5">
                             <li>
@@ -84,6 +91,59 @@ export function DisplayPreferencesSection({
                             className="text-muted text-sm tabular-nums"
                         >
                             {varianceHint}
+                        </span>
+                    </>
+                }
+            />
+
+            <SettingsFieldGroup
+                label="Variance portefeuille global"
+                htmlFor="app-portfolio-variance"
+                borderedTop
+                description={
+                    <>
+                        <p>
+                            Échelle des variations de <strong>marché</strong> uniquement pour la
+                            carte «&nbsp;Valeur totale du portefeuille&nbsp;» sur l&apos;accueil
+                            (sparkline Dietz de la valorisation globale).
+                        </p>
+                        <ul className="list-disc pl-5 space-y-1.5">
+                            <li>
+                                <strong>Exemple</strong> :{' '}
+                                <strong>0,2</strong> ≈ <strong>±20&nbsp;%</strong> pour saturer le
+                                gradient couleur.
+                            </li>
+                            <li>
+                                Les référentiels (modes Cours et Marché) utilisent toujours la
+                                variance des indices ci-dessus.
+                            </li>
+                        </ul>
+                        <SettingsMetaLine>
+                            Plage : strictement au-dessus de{' '}
+                            {DISPLAY_VARIANCE_MIN_EXCLUSIVE} jusqu&apos;à{' '}
+                            {DISPLAY_VARIANCE_MAX_INCLUSIVE} · Suggéré :{' '}
+                            <strong>{DEFAULT_APP_VARIANCE}</strong> · Enregistré sur cet appareil.
+                        </SettingsMetaLine>
+                    </>
+                }
+                control={
+                    <>
+                        <SettingsNumberInput
+                            id="app-portfolio-variance"
+                            value={portfolioVarianceField.input}
+                            onChange={portfolioVarianceField.setInput}
+                            onCommit={portfolioVarianceField.commit}
+                            inputMode="decimal"
+                            step={0.05}
+                            min={DISPLAY_VARIANCE_MIN_EXCLUSIVE + 1e-6}
+                            max={DISPLAY_VARIANCE_MAX_INCLUSIVE}
+                            describedBy="app-portfolio-variance-hint"
+                        />
+                        <span
+                            id="app-portfolio-variance-hint"
+                            className="text-muted text-sm tabular-nums"
+                        >
+                            {portfolioVarianceHint}
                         </span>
                     </>
                 }

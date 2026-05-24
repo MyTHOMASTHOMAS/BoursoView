@@ -35,12 +35,7 @@ export type ReferentielItem = {
     name: string;
     isin: string;
     management_fee: number;
-    price: number;
-    estimated_j_1: number;
-    estimated_j_7: number;
-    estimated_1_mois: number;
-    estimated_6_mois: number;
-    estimated_1_an: number;
+    price: ResumeTimeSeriesValues;
     totals: {
         transaction: TransactionTotal;
         dividende: DividendeTotal;

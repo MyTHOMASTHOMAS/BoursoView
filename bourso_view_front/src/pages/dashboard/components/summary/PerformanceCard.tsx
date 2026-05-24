@@ -12,10 +12,10 @@ import {
     formatSignedEur,
     formatSignedPercent,
 } from '../../../../utils/math'
-import type { DashboardSummaryData } from '../../data/dashboardMockData'
+import type { ResponseType as RT } from 'Shared/RouteType'
 
 type PerformanceCardProps = {
-    total: DashboardSummaryData['transaction']['total']
+    total: RT.GetResumeAction['transaction']['total']
 }
 
 type PeriodRowProps = {
@@ -66,7 +66,7 @@ export function PerformanceCard({ total }: PerformanceCardProps) {
     const perfY1  = computeModifiedDietz(estimated.current, estimated.y1,  invest.current, invest.y1)
 
     return (
-        <div className="glass-card radius-card p-4 space-y-3 hover:border-primary/30 transition-all duration-300">
+        <div className="glass-card radius-card p-4 flex flex-col gap-3 shrink-0 hover:border-primary/30 transition-all duration-300">
             {/* Header */}
             <div className="flex items-center justify-between gap-3">
                 <p className="text-muted text-small font-medium uppercase tracking-wide">Performance</p>
