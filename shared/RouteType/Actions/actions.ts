@@ -17,3 +17,6 @@ export const deleteTransactionAction = "deleteTransaction";
 export const getFundsAction = "getFunds";
 export const createFundAction = "createFund";
 export const deleteFundAction = "deleteFund";
+
+// Resume portefeuille (feuille Resume)
+export const getResumeAction = "getResume";

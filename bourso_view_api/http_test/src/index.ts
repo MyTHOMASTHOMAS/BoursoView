@@ -6,6 +6,7 @@ import { createAuthSuite } from "../../src/test/auth";
 import { createReferentielSuite } from "../../src/test/referentiel";
 import { createTransactionSuite } from "../../src/test/transaction";
 import { createHistorySuite } from "../../src/test/history";
+import { createResumeSuite } from "../../src/test/resume";
 
 // ============================================
 // Registre de toutes les suites de test
@@ -16,7 +17,8 @@ const suites: TestSuite[] = [
     createAuthSuite(AUTH_TOKEN),
     createReferentielSuite(AUTH_TOKEN),
     createTransactionSuite(AUTH_TOKEN),
-    createHistorySuite(AUTH_TOKEN)
+    createHistorySuite(AUTH_TOKEN),
+    createResumeSuite(AUTH_TOKEN)
 ];
 
 // ============================================

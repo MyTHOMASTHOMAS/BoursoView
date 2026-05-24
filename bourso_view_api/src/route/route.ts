@@ -10,6 +10,7 @@ import { getTransactionsRoute } from "./routes/transaction/getTransactions";
 import { getFundsRoute } from "./routes/fund/getFunds";
 import { createFundRoute } from "./routes/fund/createFund";
 import { deleteFundRoute } from "./routes/fund/deleteFund";
+import { getResumeRoute } from "./routes/resume/getResume";
 import {Actions} from "Shared/RouteType";
 
 /**
@@ -29,6 +30,7 @@ const routes = {
    [Actions.map.getFundsAction]: getFundsRoute,
    [Actions.map.createFundAction]: createFundRoute,
    [Actions.map.deleteFundAction]: deleteFundRoute,
+   [Actions.map.getResumeAction]: getResumeRoute,
 } satisfies PostRouteRegistry<Actions.Type>;
 
 /**
