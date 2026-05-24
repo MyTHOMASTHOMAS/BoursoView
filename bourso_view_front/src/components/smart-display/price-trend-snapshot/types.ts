@@ -36,3 +36,22 @@ export type DeltaMeta = {
      */
     segmentDays: number
 }
+
+/**
+ * Séries temporelles de valorisation d'un portefeuille.
+ * Utilisées par `PortfolioTrendSnapshot` et `PortfolioTrendHoverCard`.
+ *
+ * Seuls `current`, `j1`, `j7` et `j30` alimentent le module tendance (sparkline + 3 cartes popup).
+ * `m6` et `y1` restent disponibles pour d'autres écrans mais ne sont pas affichés dans `TrendHoverCard`.
+ *
+ * Les valeurs à `0` sont une sentinelle « pas de données »
+ * (ex : `y1 = 0` si le portefeuille a moins d'un an d'historique).
+ */
+export type PortfolioPeriodSeries = {
+    current: number
+    j1: number
+    j7: number
+    j30: number
+    m6: number
+    y1: number
+}

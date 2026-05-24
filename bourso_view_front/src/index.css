@@ -39,6 +39,30 @@
     display: none;
   }
 
+  /* Scrollbar fine et stylée — visible sur desktop */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(99, 102, 241, 0.4) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(99, 102, 241, 0.4);
+    border-radius: 9999px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(99, 102, 241, 0.7);
+  }
+
+
   .date-input-purple::-webkit-calendar-picker-indicator {
     /* Approximation du --color-primary (#6366f1) du theme */
     filter: invert(47%) sepia(80%) saturate(1550%) hue-rotate(214deg) brightness(102%) contrast(92%);
