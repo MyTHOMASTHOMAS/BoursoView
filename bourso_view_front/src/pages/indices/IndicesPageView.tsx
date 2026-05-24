@@ -46,6 +46,8 @@ export function IndicesPageView({
                     price_j_1={row.estimated_j_1}
                     price_j_7={row.estimated_j_7}
                     price_m_1={row.estimated_1_mois}
+                    price_m_6={row.estimated_6_mois}
+                    price_y_1={row.estimated_1_an}
                 />
             )
         },

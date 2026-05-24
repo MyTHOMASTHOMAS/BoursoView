@@ -3,7 +3,7 @@
  */
 
 /**
- * Props du composant `PriceTrendSnapshot` : prix spot et références historiques pour trois horizons.
+ * Props du composant `PriceTrendSnapshot` : prix spot et références historiques.
  */
 export type PriceTrendSnapshotProps = {
     /** Prix courant affiché en en-tête et utilisé comme extrémité de chaque segment de variation. */
@@ -14,6 +14,10 @@ export type PriceTrendSnapshotProps = {
     price_j_7: number
     /** Référence « il y a ~1 mois » (~30 jours), alignée avec le point 30j du sparkline. */
     price_m_1: number
+    /** Référence ~6 mois (carte popup uniquement, hors sparkline). */
+    price_m_6?: number
+    /** Référence ~1 an (carte popup uniquement, hors sparkline). */
+    price_y_1?: number
     /**
      * Amplitude de référence pour la variation relative normalisée (ex. **0.2** pour ±20 %).
      * Doit rester alignée avec `QuickTrendCurve` (`maxVariancePercent`) lorsque les deux sont utilisés ensemble.
@@ -41,8 +45,8 @@ export type DeltaMeta = {
  * Séries temporelles de valorisation d'un portefeuille.
  * Utilisées par `PortfolioTrendSnapshot` et `PortfolioTrendHoverCard`.
  *
- * Seuls `current`, `j1`, `j7` et `j30` alimentent le module tendance (sparkline + 3 cartes popup).
- * `m6` et `y1` restent disponibles pour d'autres écrans mais ne sont pas affichés dans `TrendHoverCard`.
+ * `current`, `j1`, `j7` et `j30` alimentent le sparkline et les 3 cartes « courbe ».
+ * `m6` et `y1` alimentent les cartes « hors courbe » du snapshot au clic uniquement.
  *
  * Les valeurs à `0` sont une sentinelle « pas de données »
  * (ex : `y1 = 0` si le portefeuille a moins d'un an d'historique).

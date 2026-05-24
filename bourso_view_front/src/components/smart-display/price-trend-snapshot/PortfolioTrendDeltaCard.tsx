@@ -7,6 +7,7 @@ import { computeModifiedDietz, computeAdjustedPriceReference } from '../../../ut
 
 type PortfolioTrendDeltaCardProps = {
     label: string
+    displayMode?: 'onCurve' | 'offCurve'
     estimatedCurrent: number
     estimatedRef: number
     investCurrent: number
@@ -17,6 +18,7 @@ type PortfolioTrendDeltaCardProps = {
 
 export function PortfolioTrendDeltaCard({
     label,
+    displayMode = 'onCurve',
     estimatedCurrent,
     estimatedRef,
     investCurrent,
@@ -40,6 +42,7 @@ export function PortfolioTrendDeltaCard({
     return (
         <TrendDeltaCardBase
             label={label}
+            displayMode={displayMode}
             delta={delta}
             deltaPercent={deltaPercent}
             priceStart={adjRef}

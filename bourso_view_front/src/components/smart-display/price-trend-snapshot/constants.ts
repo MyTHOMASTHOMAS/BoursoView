@@ -29,12 +29,19 @@ export const PRICE_TREND_REF_HORIZON_DAYS =
 export const PRICE_TREND_GRADIENT_HEX: string[] = ['#ef4444', '#22c55e']
 
 /**
- * Horizons affichés dans tout le module tendance (`TrendHoverCard`, snapshots popup).
- * Toujours **3 cartes** (1j, 7j, ~30j), alignées sur les 4 points du sparkline (J-30 → spot).
- * Les champs `m6` / `y1` de {@link PortfolioPeriodSeries} ne sont pas utilisés ici.
+ * Horizons affichés dans le snapshot popup, alignés sur les 4 points du sparkline (J-30 → spot).
  */
 export const TREND_SNAPSHOT_PERIODS = [
     { label: '1 jour', segmentDays: 1, portfolioKey: 'j1' as const },
     { label: '7 jours', segmentDays: 7, portfolioKey: 'j7' as const },
     { label: '1 mois', segmentDays: 30, portfolioKey: 'j30' as const },
+] as const
+
+/**
+ * Horizons **cartes uniquement** (absents du sparkline / mini-courbe).
+ * SegmentDays sert au gradient de couleur, pas à la courbe.
+ */
+export const TREND_SNAPSHOT_OFF_CURVE_PERIODS = [
+    { label: '6 mois', segmentDays: 182, portfolioKey: 'm6' as const },
+    { label: '1 an', segmentDays: 365, portfolioKey: 'y1' as const },
 ] as const

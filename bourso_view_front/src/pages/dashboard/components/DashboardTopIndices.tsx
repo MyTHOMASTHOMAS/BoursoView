@@ -3,7 +3,7 @@
  * @description Liste horizontale défilante des referentiels du portefeuille.
  *
  * Affiche uniquement le nom de l'indice et son `PriceTrendHoverCard`
- * (sparkline cliquable → popup snapshot 1j / 7j / 1 mois).
+ * (sparkline 1j / 7j / 1 mois + popup avec horizons 6 mois / 1 an).
  */
 import { Loader } from '../../../components/loading'
 import { PriceTrendHoverCard } from '../../../components/smart-display'
@@ -30,6 +30,8 @@ function IndiceItem({ indice }: { indice: RT.ReferentielItem }) {
                 price_j_1={indice.estimated_j_1}
                 price_j_7={indice.estimated_j_7}
                 price_m_1={indice.estimated_1_mois}
+                price_m_6={indice.estimated_6_mois}
+                price_y_1={indice.estimated_1_an}
             />
         </div>
     )

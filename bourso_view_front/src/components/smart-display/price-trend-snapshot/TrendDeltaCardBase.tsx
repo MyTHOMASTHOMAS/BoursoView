@@ -15,9 +15,16 @@ import { DirectionArrowIcon } from '../../icons/DirectionArrowIcon'
 import { formatSignedNumber, formatSignedPercent } from '../../../utils/math'
 import { trendVisualFromVariance } from './varianceTrendVisual'
 
+export type TrendDeltaCardDisplayMode = 'onCurve' | 'offCurve'
+
 export type TrendDeltaCardBaseProps = {
     /** Libellé affiché en haut de la carte (ex. « 1 jour »). */
     label: string
+    /**
+     * `onCurve` : cartes alignées sur le sparkline (bordure pleine).
+     * `offCurve` : horizons longs, carte popup uniquement (bordure pointillée).
+     */
+    displayMode?: TrendDeltaCardDisplayMode
     /** Delta absolu pré-calculé (en unité monétaire ou autre). */
     delta: number
     /** Variation relative pré-calculée en %. */
@@ -42,6 +49,7 @@ export type TrendDeltaCardBaseProps = {
  */
 export function TrendDeltaCardBase({
     label,
+    displayMode = 'onCurve',
     delta,
     deltaPercent,
     priceStart,
@@ -56,9 +64,16 @@ export function TrendDeltaCardBase({
         segmentDays,
     )
     const blinkClass = isExtreme ? 'animate-variance-extreme' : ''
+    const isOffCurve = displayMode === 'offCurve'
 
     return (
-        <div className="flex flex-col items-center text-center flex-1 basis-[90px] min-w-[88px] rounded-xl bg-slate-900 border border-white/10 p-2 sm:p-3 space-y-1.5 sm:space-y-2">
+        <div
+            className={
+                isOffCurve
+                    ? 'flex flex-col items-center text-center flex-1 basis-[84px] min-w-[80px] rounded-lg bg-slate-950/60 border border-dashed border-white/20 p-2 space-y-1'
+                    : 'flex flex-col items-center text-center flex-1 basis-[90px] min-w-[88px] rounded-xl bg-slate-900 border border-white/10 p-2 sm:p-3 space-y-1.5 sm:space-y-2'
+            }
+        >
             <div className="text-[11px] sm:text-xs text-text-muted w-full">{label}</div>
 
             {/* Badge % */}

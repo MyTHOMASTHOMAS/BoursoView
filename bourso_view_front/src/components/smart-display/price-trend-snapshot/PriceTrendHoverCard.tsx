@@ -18,6 +18,10 @@ export type PriceTrendHoverCardProps = {
     price_j_1: number
     price_j_7: number
     price_m_1: number
+    /** Référence ~6 mois (cartes popup uniquement). */
+    price_m_6?: number
+    /** Référence ~1 an (cartes popup uniquement). */
+    price_y_1?: number
     /**
      * Échelle commune sparkline + cartes delta ; si omis, utilise `useAppStore.defaultVariance`
      * (persistée dans le localStorage — voir slice affichage).
@@ -34,6 +38,8 @@ export function PriceTrendHoverCard({
     price_j_1,
     price_j_7,
     price_m_1,
+    price_m_6 = 0,
+    price_y_1 = 0,
     variance,
 }: PriceTrendHoverCardProps) {
     const defaultVariance = useAppStore((s) => s.defaultVariance)
@@ -51,6 +57,8 @@ export function PriceTrendHoverCard({
                     price_j_1={price_j_1}
                     price_j_7={price_j_7}
                     price_m_1={price_m_1}
+                    price_m_6={price_m_6}
+                    price_y_1={price_y_1}
                     variance={effectiveVariance}
                 />
             }

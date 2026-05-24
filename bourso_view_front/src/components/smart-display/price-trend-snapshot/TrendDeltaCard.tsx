@@ -14,6 +14,7 @@ import { TrendDeltaCardBase } from './TrendDeltaCardBase'
 type TrendDeltaCardProps = {
     /** Libellé affiché en haut de la carte. */
     label: string
+    displayMode?: 'onCurve' | 'offCurve'
     /** Prix actuel (fin du segment). */
     price: number
     /** Prix de référence au début du segment. */
@@ -28,13 +29,21 @@ type TrendDeltaCardProps = {
  * Carte de variation pour un prix unitaire d'actif.
  * Délègue l'affichage à `TrendDeltaCardBase` après calcul du delta brut.
  */
-export function TrendDeltaCard({ label, price, reference, variance, segmentDays }: TrendDeltaCardProps) {
+export function TrendDeltaCard({
+    label,
+    displayMode = 'onCurve',
+    price,
+    reference,
+    variance,
+    segmentDays,
+}: TrendDeltaCardProps) {
     const delta = price - reference
     const deltaPercent = reference !== 0 ? (delta / reference) * 100 : Number.NaN
 
     return (
         <TrendDeltaCardBase
             label={label}
+            displayMode={displayMode}
             delta={delta}
             deltaPercent={deltaPercent}
             priceStart={reference}
