@@ -13,6 +13,8 @@ export type TransactionTotal = {
     estimated_j_1: number;
     estimated_j_7: number;
     estimated_1_mois: number;
+    estimated_6_mois: number;
+    estimated_1_an: number;
 };
 
 /**
@@ -38,6 +40,8 @@ export type ReferentielItem = {
     estimated_j_1: number;
     estimated_j_7: number;
     estimated_1_mois: number;
+    estimated_6_mois: number;
+    estimated_1_an: number;
     totals: {
         transaction: TransactionTotal;
         dividende: DividendeTotal;

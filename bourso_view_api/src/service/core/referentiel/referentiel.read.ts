@@ -12,7 +12,9 @@ const EMPTY_TRANSACTION_TOTAL: TransactionTotal = {
     estimated: 0,
     estimated_j_1: 0,
     estimated_j_7: 0,
-    estimated_1_mois: 0
+    estimated_1_mois: 0,
+    estimated_6_mois: 0,
+    estimated_1_an: 0
 };
 
 const EMPTY_DIVIDENDE_TOTAL: DividendeTotal = {

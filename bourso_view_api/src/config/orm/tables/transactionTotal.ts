@@ -16,6 +16,8 @@ import { Position } from "MypkgAppsScript/SheetsService/src/SheetServiceTypes";
  * - estimated_j_1 : Valorisation estimee a J-1
  * - estimated_j_7 : Valorisation estimee a J-7
  * - estimated_1_mois : Valorisation estimee a 1 mois
+ * - estimated_6_mois : Valorisation estimee a 6 mois
+ * - estimated_1_an : Valorisation estimee a 1 an
  *
  * Table en lecture seule : toutes les colonnes sont marquees readonly.
  */
@@ -34,6 +36,8 @@ export const TRANSACTION_TOTAL_TABLE_CONFIG: TableConfig = {
         { name: "estimated", readonly: true },
         { name: "estimated_j_1", readonly: true },
         { name: "estimated_j_7", readonly: true },
-        { name: "estimated_1_mois", readonly: true }
+        { name: "estimated_1_mois", readonly: true },
+        { name: "estimated_6_mois", readonly: true },
+        { name: "estimated_1_an", readonly: true }
     ]
 };
